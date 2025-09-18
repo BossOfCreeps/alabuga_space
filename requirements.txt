@@ -1,6 +1,9 @@
 asgiref==3.9.1
 autoflake==2.3.1
+black==25.1.0
 cfgv==3.4.0
+click==8.3.0
+colorama==0.4.6
 distlib==0.4.0
 Django==5.2.6
 django-bootstrap5==25.2
@@ -11,7 +14,11 @@ flake8==7.3.0
 identify==2.6.14
 isort==6.0.1
 mccabe==0.7.0
+mypy_extensions==1.1.0
 nodeenv==1.9.1
+packaging==25.0
+pathspec==0.12.1
+pillow==11.3.0
 platformdirs==4.4.0
 pre_commit==4.3.0
 psycopg2-binary==2.9.10

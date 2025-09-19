@@ -1,11 +1,15 @@
 from django.contrib import admin
 
-from core.models import Competence, CompetenceLevel, Mission, Prize, Rank
+from core.models import Competence, CompetenceLevel, Mission, MissionTree, Prize, Rank
 
 
 @admin.register(Mission)
 class MissionAdmin(admin.ModelAdmin):
-    pass
+    class MissionTreeInline(admin.TabularInline):
+        model = MissionTree
+        fk_name = "parent"
+
+    inlines = [MissionTreeInline]
 
 
 @admin.register(Competence)

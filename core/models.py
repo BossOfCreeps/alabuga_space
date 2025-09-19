@@ -1,11 +1,6 @@
 from django.db import models
 
 
-class Mission(models.Model):
-    class Meta:
-        verbose_name, verbose_name_plural = "Миссия", "Миссии"
-
-
 class Competence(models.Model):
     name = models.CharField("Название", max_length=1024)
     description = models.TextField("Описание")
@@ -45,6 +40,30 @@ class Prize(models.Model):
     class Meta:
         verbose_name, verbose_name_plural = "Приз", "Призы"
         ordering = ["-id"]
+
+
+class Mission(models.Model):
+    name = models.CharField("Название", max_length=1024)
+    description = models.TextField("Описание")
+    image = models.ImageField("Изображение")
+
+    experience = models.PositiveIntegerField("Опыт")
+    mana = models.PositiveIntegerField("Мана")
+    min_rank = models.PositiveIntegerField("Ранг")
+    competence_level = models.ManyToManyField(CompetenceLevel, "missions", verbose_name="Даёт компетенции", blank=True)
+    prizes = models.ManyToManyField(Prize, "missions", verbose_name="Дает призы", blank=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name, verbose_name_plural = "Миссия", "Миссии"
+        ordering = ["id"]
+
+
+class MissionTree(models.Model):
+    parent = models.ForeignKey(Mission, models.CASCADE, "as_parent", verbose_name="Корневая миссия")
+    child = models.ForeignKey(Mission, models.CASCADE, "as_child", verbose_name="Дочерняя миссия")
 
 
 class Rank(models.Model):

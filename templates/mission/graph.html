@@ -14,22 +14,23 @@
         var cy = window.cy = cytoscape({
             container: document.getElementById('cy'),
 
+      boxSelectionEnabled: false, // Разрешаем выделение области
+        autounselectify: false, // Разрешаем выделение элементов
+        userPanningEnabled: false, // ОТКЛЮЧАЕМ перетаскивание графа
+        userZoomingEnabled: false, // Оставляем zoom
+
             elements: {
               nodes: [
-                { data: { id: 'n4', label: 'Process 4', description: 'Fourth processing step' }, grabbable: false },
-                { data: { id: 'n5', label: 'Process 5', description: 'Fifth processing step' }, grabbable: false },
-                { data: { id: 'n6', label: 'Process 6', description: 'Sixth processing step' }, grabbable: false },
-                { data: { id: 'n7', label: 'Process 7', description: 'Seventh processing step' }, grabbable: false },
-                { data: { id: 'n8', label: 'Process 8', description: 'Eighth processing step' }, grabbable: false },
-                { data: { id: 'n9', label: 'Process 9', description: 'Ninth processing step' }, grabbable: false },
+                  {% for m in object_list %}
+                      { data: { id: '{{ m.id }}', label: '{{ m.name }}' }, grabbable: false },
+                  {% endfor %}
               ],
               edges: [
-                { data: { source: 'n4', target: 'n5' } },
-                { data: { source: 'n4', target: 'n6' } },
-                { data: { source: 'n6', target: 'n7' } },
-                { data: { source: 'n6', target: 'n8' } },
-                { data: { source: 'n7', target: 'n9' } },
-                { data: { source: 'n8', target: 'n9' } },
+                  {% for parent_m in object_list %}
+                      {% for tree in parent_m.as_parent.all %}
+                        { data: { source: '{{ parent_m.id }}', target: '{{ tree.child_id }}' } },
+                      {% endfor %}
+                  {% endfor %}
               ]
             },
             layout: {
@@ -70,8 +71,7 @@
           });
 
         cy.on('dbltap', 'node', function(evt) {
-            const node = evt.target;
-            const nodeData = node.data();
+            const nodeData = evt.target.data();
             alert(nodeData.id);
         });
     </script>

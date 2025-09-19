@@ -7,7 +7,7 @@
     {% else %}
         Создание
     {% endif %}
-    ранга
+    компетенции
 {% endblock %}
 {% block content %}
     <div class="container mb-5">
@@ -19,25 +19,12 @@
                     {% else %}
                         Создание
                     {% endif %}
-                    ранга
+                    компетенции
                 </h3>
                 {% bootstrap_messages %}
                 <form method="post" novalidate enctype="multipart/form-data">
                     {% csrf_token %}
                     {% bootstrap_form form layout='vertical' %}
-                    <!-- Требуемые уровни компетенций -->
-                    <label class="form-label">Требуемые уровни компетенций</label>
-                    {% for competence in competences %}
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="id_competence_level_{{ competence.id }}">{{ competence.name }}</span>
-                            <input type="number"
-                                   name="competence_level_{{ competence.id }}"
-                                   class="form-control"
-                                   value="{{ competence_level_map|get_item:competence.id|default_if_none:0 }}"
-                                   aria-describedby="id_competence_level_{{ competence.id }}"
-                                   required>
-                        </div>
-                    {% endfor %}
                     <button type="submit" class="btn btn-primary">Создать</button>
                 </form>
             </div>

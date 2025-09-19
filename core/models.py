@@ -7,8 +7,16 @@ class Mission(models.Model):
 
 
 class Competence(models.Model):
+    name = models.CharField("Название", max_length=1024)
+    description = models.TextField("Описание")
+    image = models.ImageField("Изображение")
+
+    def __str__(self):
+        return self.name
+
     class Meta:
         verbose_name, verbose_name_plural = "Компетенция", "Компетенции"
+        ordering = ["id"]
 
 
 class CompetenceLevel(models.Model):

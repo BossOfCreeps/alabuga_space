@@ -1,11 +1,26 @@
 {% extends "base.html" %}
+{% load dict_filters %}
 {% load django_bootstrap5 %}
-{% block title %}Создание ранга{% endblock %}
+{% block title %}
+    {% if object %}
+        Изменение
+    {% else %}
+        Создание
+    {% endif %}
+    ранга
+{% endblock %}
 {% block content %}
     <div class="container mb-5">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <h3 class="text-center">Создание ранга</h3>
+                <h3 class="text-center">
+                    {% if object %}
+                        Изменение
+                    {% else %}
+                        Создание
+                    {% endif %}
+                    ранга
+                </h3>
                 {% bootstrap_messages %}
                 <form method="post" novalidate enctype="multipart/form-data">
                     {% csrf_token %}
@@ -18,7 +33,7 @@
                             <input type="number"
                                    name="competence_level_{{ competence.id }}"
                                    class="form-control"
-                                   value="0"
+                                   value="{{ competence_level_map|get_item:competence.id|default_if_none:0 }}"
                                    aria-describedby="id_competence_level_{{ competence.id }}"
                                    required>
                         </div>

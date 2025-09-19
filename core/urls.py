@@ -6,7 +6,10 @@ from core.views import (
     CompetenceUpdateView,
     IndexView,
     MissionCodeView,
+    MissionCreateView,
+    MissionDeleteView,
     MissionGraphView,
+    MissionUpdateView,
     PrizeCreateView,
     PrizeDeleteView,
     PrizeUpdateView,
@@ -36,6 +39,11 @@ urlpatterns = [
     path("prize/<int:pk>/delete/", PrizeDeleteView.as_view(), name="prize-delete"),
     path("prize/create/", PrizeCreateView.as_view(), name="prize-create"),
     #
+    # path("mission/", MissionListView.as_view(), name="mission-list"),
+    # path("mission/<int:pk>/", MissionView.as_view(), name="mission-detail"),
+    path("mission/<int:pk>/update/", MissionUpdateView.as_view(), name="mission-update"),
+    path("mission/<int:pk>/delete/", MissionDeleteView.as_view(), name="mission-delete"),
+    path("mission/create/", MissionCreateView.as_view(), name="mission-create"),
     path("mission/code/", MissionCodeView.as_view(), name="mission-code"),
     path("mission/graph/", MissionGraphView.as_view(), name="mission-graph"),
 ]

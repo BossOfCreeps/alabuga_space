@@ -14,10 +14,10 @@
         var cy = window.cy = cytoscape({
             container: document.getElementById('cy'),
 
-      boxSelectionEnabled: false, // Разрешаем выделение области
-        autounselectify: false, // Разрешаем выделение элементов
-        userPanningEnabled: false, // ОТКЛЮЧАЕМ перетаскивание графа
-        userZoomingEnabled: false, // Оставляем zoom
+            boxSelectionEnabled: false, // Разрешаем выделение области
+            autounselectify: false, // Разрешаем выделение элементов
+            userPanningEnabled: false, // ОТКЛЮЧАЕМ перетаскивание графа
+            userZoomingEnabled: false, // Оставляем zoom
 
             elements: {
               nodes: [
@@ -72,7 +72,7 @@
 
         cy.on('dbltap', 'node', function(evt) {
             const nodeData = evt.target.data();
-            alert(nodeData.id);
+            window.location.href = '/mission/' + nodeData.id + '/update/'; // TODO
         });
     </script>
 {% endblock %}

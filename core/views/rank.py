@@ -3,8 +3,8 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, FormView, UpdateView
 
 from core.forms import RankForm
-from core.models import Competence, CompetenceLevel, Rank
-from utils.forms import show_bootstrap_error_message
+from core.models import Competence, Rank
+from utils.forms import parse_competence_levels_map, show_bootstrap_error_message
 
 
 class RankMixin(FormView):
@@ -17,16 +17,10 @@ class RankMixin(FormView):
         kwargs = super().get_form_kwargs()
 
         if self.request.method in ("POST", "PUT"):
-            data = self.request.POST.dict()
-            data["missions"] = self.request.POST.getlist("missions")
-            competence_levels = [
-                str(CompetenceLevel.objects.get_or_create(competence_id=int(k.split("_")[-1]), level=int(v))[0].id)
-                for k, v in data.items()
-                if k.startswith("competence_level_")
-            ]
-            data["competence_level"] = competence_levels
-
-            kwargs["data"] = data
+            kwargs["data"] = self.request.POST.dict() | {
+                "missions": self.request.POST.getlist("missions"),
+                "competence_level": parse_competence_levels_map(self.request.POST.dict()),
+            }
 
         return kwargs
 

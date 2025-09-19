@@ -47,11 +47,11 @@ class Mission(models.Model):
     description = models.TextField("Описание")
     image = models.ImageField("Изображение")
 
+    rank = models.ForeignKey("Rank", models.CASCADE, "rank_missions", verbose_name="Ранг")
     experience = models.PositiveIntegerField("Опыт")
     mana = models.PositiveIntegerField("Мана")
-    min_rank = models.PositiveIntegerField("Ранг")
-    competence_level = models.ManyToManyField(CompetenceLevel, "missions", verbose_name="Даёт компетенции", blank=True)
     prizes = models.ManyToManyField(Prize, "missions", verbose_name="Дает призы", blank=True)
+    competence_level = models.ManyToManyField(CompetenceLevel, "missions", verbose_name="Даёт компетенции", blank=True)
 
     def __str__(self):
         return self.name
@@ -74,7 +74,7 @@ class Rank(models.Model):
 
     # условия для получения
     experience = models.PositiveIntegerField("Требуемый опыт")
-    missions = models.ManyToManyField(Mission, "ranks", verbose_name="Требуемые миссии", blank=True)
+    missions = models.ManyToManyField(Mission, "ranks_where_required", verbose_name="Требуемые миссии", blank=True)
     competence_level = models.ManyToManyField(
         CompetenceLevel, "ranks", verbose_name="Требуемые уровни компетенций", blank=True
     )

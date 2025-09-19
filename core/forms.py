@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import ModelForm
+from django.forms import Form, ModelForm
 
 from core.models import Competence, Prize, Rank
 
@@ -22,3 +22,8 @@ class PrizeForm(ModelForm):
     class Meta:
         model = Prize
         fields = "__all__"
+
+
+class MissionCodeForm(Form):
+    image = forms.ImageField(required=False, label="Загрузить QR код")
+    text = forms.CharField(required=False, label="Текстовый код")

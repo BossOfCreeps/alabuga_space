@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, TemplateView, UpdateView
+from django.views.generic import CreateView, DeleteView, TemplateView, UpdateView
 
 from core.forms import RankForm
 from core.models import Competence, CompetenceLevel, Rank
@@ -73,3 +73,9 @@ class RankUpdateView(UpdateView):
     def form_invalid(self, form):
         show_bootstrap_error_message(form, self.request)
         return super().form_invalid(form)
+
+
+class RankDeleteView(DeleteView):
+    queryset = Rank.objects.all()
+    template_name = "rank/delete.html"
+    success_url = reverse_lazy("index")  # TODO:

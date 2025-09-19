@@ -1,15 +1,17 @@
 from django.db import models
+from django_ckeditor_5.fields import CKEditor5Field
+from polymorphic.models import PolymorphicModel
 
 from core.models.competence import CompetenceLevel
 from core.models.prize import Prize
 
 
-class Mission(models.Model):
+class Mission(PolymorphicModel):  # условно абстрактный класс
     name = models.CharField("Название", max_length=1024)
     description = models.TextField("Описание")
     image = models.ImageField("Изображение")
 
-    rank = models.ForeignKey("Rank", models.CASCADE, "rank_missions", verbose_name="Ранг")
+    rank = models.IntegerField("Ранг")
     experience = models.PositiveIntegerField("Опыт")
     mana = models.PositiveIntegerField("Мана")
     prizes = models.ManyToManyField(Prize, "missions", verbose_name="Дает призы", blank=True)
@@ -26,3 +28,68 @@ class Mission(models.Model):
 class MissionTree(models.Model):
     parent = models.ForeignKey(Mission, models.CASCADE, "as_parent", verbose_name="Корневая миссия")
     child = models.ForeignKey(Mission, models.CASCADE, "as_child", verbose_name="Дочерняя миссия")
+
+
+class MissionCode(Mission):
+    code = models.CharField("Код", max_length=1024)
+
+    mission_type = "Квест"
+
+    class Meta:
+        verbose_name, verbose_name_plural = "Миссия Квест", "Миссии Квест"
+        ordering = ["id"]
+
+
+class MissionRecruiting(Mission):
+    invited = models.PositiveIntegerField("Сколько необходимо пригласить")
+
+    mission_type = "Рекрутинг"
+
+    class Meta:
+        verbose_name, verbose_name_plural = "Миссия Рекрутинг", "Миссии Рекрутинг"
+        ordering = ["id"]
+
+
+class MissionTeaching(Mission):
+    content = CKEditor5Field(config_name="extends")
+
+    mission_type = "Лекторий"
+
+    class Meta:
+        verbose_name, verbose_name_plural = "Миссия Лекторий", "Миссии Лекторий"
+        ordering = ["id"]
+
+
+class MissionQuiz(Mission):
+    questions = models.ManyToManyField("Question", "missions", verbose_name="Вопросы")
+
+    mission_type = "Симулятор"
+
+    class Meta:
+        verbose_name, verbose_name_plural = "Миссия Симулятор", "Миссии Симулятор"
+        ordering = ["id"]
+
+
+class Question(models.Model):
+    text = models.TextField()
+    file = models.FileField()
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name, verbose_name_plural = "Вопрос", "Вопросы"
+        ordering = ["id"]
+
+
+class Answer(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="answers")
+    text = models.TextField()
+    is_correct = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.question} - {self.text}"
+
+    class Meta:
+        verbose_name, verbose_name_plural = "Ответ", "Ответы"
+        ordering = ["id"]

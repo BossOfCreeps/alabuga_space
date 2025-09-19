@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     #
     "django_filters",
     "django_htmx",
+    "django_ckeditor_5",
     "django_bootstrap5",
     #
     "users",
@@ -124,6 +125,65 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "users.User"
+
+CKEDITOR_5_CONFIGS = {  # TODO: посмотреть добавить а что удалить
+    "default": {
+        "toolbar": [
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "link",
+            "bulletedList",
+            "numberedList",
+            "blockQuote",
+            "imageUpload",
+        ],
+    },
+    "extends": {
+        "toolbar": [
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "underline",
+            "strikethrough",
+            "code",
+            "subscript",
+            "superscript",
+            "highlight",
+            "|",
+            "codeBlock",
+            "sourceEditing",
+            "insertImage",
+            "bulletedList",
+            "numberedList",
+            "todoList",
+            "|",
+            "blockQuote",
+            "imageUpload",
+            "|",
+            "fontSize",
+            "fontFamily",
+            "fontColor",
+            "fontBackgroundColor",
+            "removeFormat",
+            "insertTable",
+        ],
+        "image": {
+            "toolbar": [
+                "imageTextAlternative",
+                "|",
+                "imageStyle:alignLeft",
+                "imageStyle:alignRight",
+                "imageStyle:alignCenter",
+                "imageStyle:side",
+                "|",
+            ],
+            "styles": ["full", "side", "alignLeft", "alignRight", "alignCenter"],
+        },
+    },
+}
 
 LOGGING = {
     "version": 1,

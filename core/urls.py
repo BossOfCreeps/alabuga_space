@@ -6,6 +6,7 @@ from core.views import (
     CompetenceUpdateView,
     IndexView,
     MissionCodeView,
+    MissionGraphView,
     PrizeCreateView,
     PrizeDeleteView,
     PrizeUpdateView,
@@ -36,4 +37,5 @@ urlpatterns = [
     path("prize/create/", PrizeCreateView.as_view(), name="prize-create"),
     #
     path("mission/code/", MissionCodeView.as_view(), name="mission-code"),
+    path("mission/graph/", MissionGraphView.as_view(), name="mission-graph"),
 ]

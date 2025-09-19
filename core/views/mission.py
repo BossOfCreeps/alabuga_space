@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.urls import reverse_lazy
-from django.views.generic import FormView
+from django.views.generic import FormView, TemplateView
 
 from core.forms import MissionCodeForm
 from utils.qr import decode_qr_from_image
@@ -26,3 +26,7 @@ class MissionCodeView(FormView):
         print(text)
 
         return super().form_valid(form)
+
+
+class MissionGraphView(TemplateView):
+    template_name = "mission/graph.html"

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Граф миссий</h1>
+                <div id="cy"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        var cy = window.cy = cytoscape({
+            container: document.getElementById('cy'),
+
+            elements: {
+              nodes: [
+                { data: { id: 'n4', label: 'Process 4', description: 'Fourth processing step' }, grabbable: false },
+                { data: { id: 'n5', label: 'Process 5', description: 'Fifth processing step' }, grabbable: false },
+                { data: { id: 'n6', label: 'Process 6', description: 'Sixth processing step' }, grabbable: false },
+                { data: { id: 'n7', label: 'Process 7', description: 'Seventh processing step' }, grabbable: false },
+                { data: { id: 'n8', label: 'Process 8', description: 'Eighth processing step' }, grabbable: false },
+                { data: { id: 'n9', label: 'Process 9', description: 'Ninth processing step' }, grabbable: false },
+              ],
+              edges: [
+                { data: { source: 'n4', target: 'n5' } },
+                { data: { source: 'n4', target: 'n6' } },
+                { data: { source: 'n6', target: 'n7' } },
+                { data: { source: 'n6', target: 'n8' } },
+                { data: { source: 'n7', target: 'n9' } },
+                { data: { source: 'n8', target: 'n9' } },
+              ]
+            },
+            layout: {
+              name: 'dagre',
+              rankDir: 'TB',
+              nodeDimensionsIncludeLabels: true
+            },
+            style: [
+                {
+                selector: 'node',
+                style: {
+                    'shape': 'rectangle', // квадратная форма
+                    'content': 'data(label)',
+                    'text-valign': 'center',
+                    'text-halign': 'center',
+                    'color': '#fff',
+                    'font-size': '10px',
+                    'font-weight': 'bold',
+                    'background-color': '#11479e',
+                    'width': '200px',
+                    'height': '50px',
+                    'border-width': '2px',
+                    'border-color': '#fff',
+                    'grabbable': 'false'
+                }
+              },
+              {
+                selector: 'edge',
+                style: {
+                  'curve-style': 'bezier',
+                  'width': 3,
+                  'target-arrow-shape': 'triangle',
+                  'line-color': '#9dbaea',
+                  'target-arrow-color': '#9dbaea'
+                }
+              },
+            ]
+          });
+
+        cy.on('dbltap', 'node', function(evt) {
+            const node = evt.target;
+            const nodeData = node.data();
+            alert(nodeData.id);
+        });
+    </script>
+{% endblock %}

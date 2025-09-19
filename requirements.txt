@@ -26,7 +26,7 @@ pycodestyle==2.14.0
 pyflakes==3.4.0
 python-dotenv==1.1.0
 PyYAML==6.0.2
+pyzbar==0.1.9 # на мак https://github.com/npinchot/zbar/issues/3#issuecomment-1038005495
 sqlparse==0.5.3
 tzdata==2025.2
 virtualenv==20.34.0
-pyzbar==0.1.9 # на мак https://github.com/npinchot/zbar/issues/3#issuecomment-1038005495

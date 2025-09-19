@@ -5,6 +5,9 @@ from core.views import (
     CompetenceDeleteView,
     CompetenceUpdateView,
     IndexView,
+    PrizeCreateView,
+    PrizeDeleteView,
+    PrizeUpdateView,
     RankCreateView,
     RankDeleteView,
     RankUpdateView,
@@ -24,4 +27,10 @@ urlpatterns = [
     path("competences/<int:pk>/update/", CompetenceUpdateView.as_view(), name="competence-update"),
     path("competences/<int:pk>/delete/", CompetenceDeleteView.as_view(), name="competence-delete"),
     path("competences/create/", CompetenceCreateView.as_view(), name="competence-create"),
+    #
+    # path("prize/", PrizeListView.as_view(), name="prize-list"),
+    # path("prize/<int:pk>/", PrizeView.as_view(), name="prize-detail"),
+    path("prize/<int:pk>/update/", PrizeUpdateView.as_view(), name="prize-update"),
+    path("prize/<int:pk>/delete/", PrizeDeleteView.as_view(), name="prize-delete"),
+    path("prize/create/", PrizeCreateView.as_view(), name="prize-create"),
 ]

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from core.models import Competence, CompetenceLevel, Mission, Rank
+from core.models import Competence, CompetenceLevel, Mission, Prize, Rank
 
 
 @admin.register(Mission)
@@ -20,4 +20,9 @@ class CompetenceLevelAdmin(admin.ModelAdmin):
 
 @admin.register(Rank)
 class RankAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Prize)
+class PrizeAdmin(admin.ModelAdmin):
     pass

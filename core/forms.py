@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 
-from core.models import Competence, Rank
+from core.models import Competence, Prize, Rank
 
 
 class RankForm(ModelForm):
@@ -15,4 +15,10 @@ class RankForm(ModelForm):
 class CompetenceForm(ModelForm):
     class Meta:
         model = Competence
+        fields = "__all__"
+
+
+class PrizeForm(ModelForm):
+    class Meta:
+        model = Prize
         fields = "__all__"

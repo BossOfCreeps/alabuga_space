@@ -1,8 +1,8 @@
-from django.contrib import messages
 from django.contrib.auth import login
 from django.urls import reverse_lazy
-from django.utils.translation import gettext_lazy
 from django.views.generic import FormView
+
+from utils.forms import show_bootstrap_error_message
 
 from .forms import UserRegisterForm
 
@@ -17,13 +17,5 @@ class RegisterView(FormView):
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        error_messages = []
-        for field, errors in form.errors.items():
-            field_name = form.fields[field].label if field in form.fields else field
-            for error in errors:
-                error_messages.append(f"{field_name}: {gettext_lazy(error)}")  # TODO: перевод
-
-        for error_msg in error_messages:
-            messages.error(self.request, error_msg)
-
+        show_bootstrap_error_message(form, self.request)
         return super().form_invalid(form)

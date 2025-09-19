@@ -24,7 +24,7 @@ class CompetenceLevel(models.Model):
 
 class Rank(models.Model):
     id = models.PositiveIntegerField("Уровень", primary_key=True)
-    name = models.TextField("Название")
+    name = models.CharField("Название", max_length=1024)
     description = models.TextField("Описание")
     image = models.ImageField("Изображение")
 
@@ -36,7 +36,7 @@ class Rank(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return f"{self.id} - {self.name}"
 
     class Meta:
         verbose_name, verbose_name_plural = "Ранг", "Ранги"

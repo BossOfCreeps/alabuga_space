@@ -14,6 +14,8 @@ from core.views import (
     PrizeDeleteView,
     PrizeUpdateView,
     QuestionCreateView,
+    QuestionDeleteView,
+    QuestionUpdateView,
     RankCreateView,
     RankDeleteView,
     RankUpdateView,
@@ -48,4 +50,6 @@ urlpatterns = [
     path("mission/force_code/", MissionForceCodeView.as_view(), name="mission-code"),
     path("mission/graph/", MissionGraphView.as_view(), name="mission-graph"),
     path("mission/question/create/", QuestionCreateView.as_view(), name="question-create"),
+    path("mission/question/<int:pk>/update/", QuestionUpdateView.as_view(), name="question-update"),
+    path("mission/question/<int:pk>/delete/", QuestionDeleteView.as_view(), name="question-delete"),
 ]

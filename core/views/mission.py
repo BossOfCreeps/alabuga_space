@@ -12,7 +12,16 @@ from core.forms import (
     MissionTeachingForm,
     QuestionForm,
 )
-from core.models import Competence, Mission, MissionCode, MissionQuiz, MissionRecruiting, MissionTeaching, Question
+from core.models import (
+    Answer,
+    Competence,
+    Mission,
+    MissionCode,
+    MissionQuiz,
+    MissionRecruiting,
+    MissionTeaching,
+    Question,
+)
 from utils.forms import parse_competence_levels_map, show_bootstrap_error_message
 from utils.qr import decode_qr_from_image
 
@@ -113,6 +122,33 @@ class QuestionMixin(ModelFormMixin, ProcessFormView):
     form_class = QuestionForm
     template_name = "mission/question_form.html"
     success_url = reverse_lazy("index")  # TODO:
+
+    def form_valid(self, form):
+        data = self.request.POST.dict()
+
+        has_answer = False
+        for k, v in data.items():
+            if k.startswith("answer_text_") and v:
+                has_answer = True
+                break
+
+        if not has_answer:
+            messages.error(self.request, "Вопрос должен иметь хотя бы один ответ")
+            return self.form_invalid(form)
+
+        self.object = form.save()
+        self.object.answers.all().delete()
+
+        for k, v in data.items():
+            if k.startswith("answer_text_"):
+                self.object.answers.add(
+                    Answer.objects.create(
+                        question=self.object, text=v, is_correct=k.replace("answer_text_", "answer_correct_") in data
+                    )
+                )
+        self.object.save()
+
+        return super().form_valid(form)
 
 
 class QuestionCreateView(QuestionMixin, CreateView):

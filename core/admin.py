@@ -42,7 +42,10 @@ class MissionRecruitingAdmin(admin.ModelAdmin):
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    pass
+    class AnswerInline(admin.TabularInline):
+        model = Answer
+
+    inlines = [AnswerInline]
 
 
 @admin.register(Answer)

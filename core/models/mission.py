@@ -96,7 +96,7 @@ class MissionQuiz(Mission):
 class Question(models.Model):
     name = models.CharField("Название", max_length=1024)
     description = models.TextField("Описание")
-    file = models.FileField("Файл")
+    file = models.FileField("Файл", blank=True, null=True)
 
     def __str__(self):
         return self.name

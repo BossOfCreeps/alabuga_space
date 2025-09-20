@@ -25,9 +25,134 @@
                 <form method="post" novalidate enctype="multipart/form-data">
                     {% csrf_token %}
                     {% bootstrap_form form layout='vertical' %}
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <!-- Ответы на вопрос -->
+                    <label class="form-label mb-3">Ответы:</label>
+                    <div id="answers-container">
+                        {% if object %}
+                            {% for answer in object.answers.all %}
+                                <div class="answer-block input-group mb-1">
+                                    <div class="input-group-text">
+                                        <input class="form-check-input mt-0"
+                                               name="answer_correct_0{{ answer.id }}"
+                                               {% if answer.is_correct %}checked{% endif %}
+                                               type="checkbox"
+                                               value="1">
+                                    </div>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="answer_text_0{{ answer.id }}"
+                                           value="{{ answer.text }}"
+                                           aria-label="Текст ответ">
+                                    <button type="button" class="btn btn-danger remove-answer-btn">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="answer-block input-group mb-1">
+                                <div class="input-group-text">
+                                    <input class="form-check-input mt-0"
+                                           name="answer_correct_1"
+                                           type="checkbox"
+                                           value="">
+                                </div>
+                                <input type="text"
+                                       class="form-control"
+                                       name="answer_text_1"
+                                       aria-label="Текст ответ">
+                                <button type="button" class="btn btn-danger remove-answer-btn">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                            <div class="answer-block input-group mb-1">
+                                <div class="input-group-text">
+                                    <input class="form-check-input mt-0"
+                                           name="answer_correct_2"
+                                           type="checkbox"
+                                           value="">
+                                </div>
+                                <input type="text"
+                                       class="form-control"
+                                       name="answer_text_2"
+                                       aria-label="Текст ответ">
+                                <button type="button" class="btn btn-danger remove-answer-btn">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <button type="button" id="add-answer-btn" class="btn btn-secondary">
+                            <i class="fa fa-plus"></i> Добавить ответ
+                        </button>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Сохранить</button>
                 </form>
             </div>
         </div>
     </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const answersContainer = document.getElementById('answers-container');
+            const addAnswerBtn = document.getElementById('add-answer-btn');
+            let answerCount = document.querySelectorAll('.answer-block').length;
+
+            // Функция для удаления блока ответа
+            function setupRemoveButtons() {
+                document.querySelectorAll('.remove-answer-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        // Не удаляем, если остался только один блок
+                        if (document.querySelectorAll('.answer-block').length > 1) {
+                            this.closest('.answer-block').remove();
+                            updateAnswerIndexes();
+                        } else {
+                            alert('Должен остаться хотя бы один ответ');
+                        }
+                    });
+                });
+            }
+
+            // Функция для обновления индексов в именах полей
+            function updateAnswerIndexes() {
+                document.querySelectorAll('.answer-block').forEach((block, index) => {
+                    const newIndex = index + 1;
+
+                    // Обновляем чекбокс
+                    const checkbox = block.querySelector('input[type="checkbox"]');
+                    checkbox.name = `answer_correct_${newIndex}`;
+
+                    // Обновляем текстовое поле
+                    const textInput = block.querySelector('input[type="text"]');
+                    textInput.name = `answer_text_${newIndex}`;
+                });
+
+                answerCount = document.querySelectorAll('.answer-block').length;
+            }
+
+            // Обработчик для кнопки добавления ответа
+            addAnswerBtn.addEventListener('click', function() {
+                answerCount++;
+
+                const newAnswerBlock = document.createElement('div');
+                newAnswerBlock.className = 'answer-block input-group mb-1';
+                newAnswerBlock.innerHTML = `
+                    <div class="input-group-text">
+                        <input class="form-check-input mt-0" name="answer_correct_${answerCount}" type="checkbox" value="1">
+                    </div>
+                    <input type="text" class="form-control" name="answer_text_${answerCount}" aria-label="Текст ответ">
+                    <button type="button" class="btn btn-danger remove-answer-btn">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                `;
+
+                answersContainer.appendChild(newAnswerBlock);
+                setupRemoveButtons();
+            });
+
+            // Инициализация кнопок удаления
+            setupRemoveButtons();
+        });
+    </script>
 {% endblock %}

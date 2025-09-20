@@ -13,5 +13,4 @@ class User(AbstractUser):
         CompetenceLevel, "users", verbose_name="Имеющиеся уровни компетенций", blank=True
     )
 
-    balance = models.IntegerField(default=0)
     prizes = models.ManyToManyField(Prize, "users", verbose_name="Полученные призы", blank=True)

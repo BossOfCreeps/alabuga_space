@@ -31,9 +31,32 @@ class MissionTree(models.Model):
 
 
 class MissionCode(Mission):
-    code = models.CharField("Код", max_length=1024)
+    code = models.CharField("Код", max_length=1024, unique=True)
 
     mission_type = "Квест"
+
+    def verify(self, user, code: str):
+        v = self.rank == user.rank and self.code == code and self not in user.missions.all()
+        if v:
+            user.missions.add(self)
+            user.experience += self.experience
+            for prize in self.prizes.all():
+                user.prizes.add(prize)  # TODO:
+
+            user_cl_map = {o.competence_id: o.level for o in user.competence_level.all()}
+            for cl in self.competence_level.all():
+                if cl.competence_id not in user_cl_map:
+                    user_cl_map[cl.competence_id] = cl.level
+                else:
+                    user_cl_map[cl.competence_id] += cl.level
+
+            user.competence_level.clear()
+            for c_id, level in user_cl_map.items():
+                user.competence_level.add(CompetenceLevel.objects.get_or_create(competence_id=c_id, level=level)[0])
+
+            user.save()
+
+        return v
 
     class Meta:
         verbose_name, verbose_name_plural = "Миссия Квест", "Миссии Квест"

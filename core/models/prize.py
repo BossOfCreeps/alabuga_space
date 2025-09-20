@@ -5,10 +5,7 @@ class Prize(models.Model):
     name = models.CharField("Название", max_length=1024)
     description = models.TextField("Описание")
     image = models.ImageField("Изображение")
-
     rare = models.PositiveIntegerField("Редкость")
-    cost = models.PositiveIntegerField("Цена")
-    is_salable = models.BooleanField("Доступен для продажи?", default=True)
     need_hr_notif = models.BooleanField("Необходимо уведомить HR о получении", default=False)
 
     def __str__(self):

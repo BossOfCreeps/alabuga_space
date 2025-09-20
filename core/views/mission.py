@@ -2,11 +2,11 @@ from django.contrib import messages
 from django.forms import Form
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, FormView, ListView, UpdateView
+from django.views.generic.edit import ModelFormMixin, ProcessFormView
 
 from core.forms import (
     MissionCodeForm,
     MissionForceCodeForm,
-    MissionForm,
     MissionQuizForm,
     MissionRecruitingForm,
     MissionTeachingForm,
@@ -16,11 +16,26 @@ from utils.forms import parse_competence_levels_map, show_bootstrap_error_messag
 from utils.qr import decode_qr_from_image
 
 
-class MissionMixin(FormView):
+class MissionMixin(ModelFormMixin, ProcessFormView):
     queryset = Mission.objects.all()
-    form_class = MissionForm
     template_name = "mission/form.html"
     success_url = reverse_lazy("index")  # TODO:
+
+    def get_form_class(self):
+        if self.object is not None:
+            return {
+                MissionCode: MissionCodeForm,
+                MissionRecruiting: MissionRecruitingForm,
+                MissionTeaching: MissionTeachingForm,
+                MissionQuiz: MissionQuizForm,
+            }.get(self.object.get_real_instance_class())
+
+        return {
+            "c": MissionCodeForm,
+            "r": MissionRecruitingForm,
+            "t": MissionTeachingForm,
+            "q": MissionQuizForm,
+        }.get(self.request.GET.get("type"))
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -46,14 +61,6 @@ class MissionCreateView(MissionMixin, CreateView):
 
 
 class MissionUpdateView(MissionMixin, UpdateView):
-    def get_form_class(self):
-        return {
-            MissionCode: MissionCodeForm,
-            MissionRecruiting: MissionRecruitingForm,
-            MissionTeaching: MissionTeachingForm,
-            MissionQuiz: MissionQuizForm,
-        }.get(self.object.get_real_instance_class())
-
     def get_context_data(self, **kwargs):
         return super().get_context_data(**kwargs) | {
             "competence_level_map": {cl.competence.id: cl.level for cl in self.object.competence_level.all()},
@@ -67,7 +74,7 @@ class MissionDeleteView(MissionMixin, DeleteView):
 
 class MissionForceCodeView(FormView):
     form_class = MissionForceCodeForm
-    template_name = "mission/code.html"
+    template_name = "mission/force_code.html"
     success_url = reverse_lazy("index")  # TODO:
 
     def form_valid(self, form):
@@ -82,7 +89,15 @@ class MissionForceCodeView(FormView):
         else:
             text = data["text"]
 
-        print(text)
+        mission: MissionCode = MissionCode.objects.filter(code=text).first()
+        if mission is None:
+            messages.error(self.request, "Миссия не найдена")
+            return self.form_invalid(form)
+
+        v = mission.verify(self.request.user, text)
+        if v is False:
+            messages.error(self.request, "Миссия не найдена")
+            return self.form_invalid(form)
 
         return super().form_valid(form)
 

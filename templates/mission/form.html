@@ -24,6 +24,7 @@
                 {% bootstrap_messages %}
                 <form method="post" novalidate enctype="multipart/form-data">
                     {% csrf_token %}
+                    {{ form.media }}
                     {% bootstrap_form form layout='vertical' %}
                     <!-- Даёт компетенции -->
                     <label class="form-label">Даёт компетенции</label>

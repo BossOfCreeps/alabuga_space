@@ -3,8 +3,15 @@ from django.forms import Form
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, FormView, ListView, UpdateView
 
-from core.forms import MissionCodeForm, MissionForm
-from core.models import Competence, Mission
+from core.forms import (
+    MissionCodeForm,
+    MissionForceCodeForm,
+    MissionForm,
+    MissionQuizForm,
+    MissionRecruitingForm,
+    MissionTeachingForm,
+)
+from core.models import Competence, Mission, MissionCode, MissionQuiz, MissionRecruiting, MissionTeaching
 from utils.forms import parse_competence_levels_map, show_bootstrap_error_message
 from utils.qr import decode_qr_from_image
 
@@ -39,6 +46,14 @@ class MissionCreateView(MissionMixin, CreateView):
 
 
 class MissionUpdateView(MissionMixin, UpdateView):
+    def get_form_class(self):
+        return {
+            MissionCode: MissionCodeForm,
+            MissionRecruiting: MissionRecruitingForm,
+            MissionTeaching: MissionTeachingForm,
+            MissionQuiz: MissionQuizForm,
+        }.get(self.object.get_real_instance_class())
+
     def get_context_data(self, **kwargs):
         return super().get_context_data(**kwargs) | {
             "competence_level_map": {cl.competence.id: cl.level for cl in self.object.competence_level.all()},
@@ -50,8 +65,8 @@ class MissionDeleteView(MissionMixin, DeleteView):
     form_class = Form
 
 
-class MissionCodeView(FormView):
-    form_class = MissionCodeForm
+class MissionForceCodeView(FormView):
+    form_class = MissionForceCodeForm
     template_name = "mission/code.html"
     success_url = reverse_lazy("index")  # TODO:
 

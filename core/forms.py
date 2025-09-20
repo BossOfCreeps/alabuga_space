@@ -1,7 +1,17 @@
 from django import forms
 from django.forms import Form, ModelForm
 
-from core.models import Competence, Mission, MissionCode, MissionQuiz, MissionRecruiting, MissionTeaching, Prize, Rank
+from core.models import (
+    Competence,
+    Mission,
+    MissionCode,
+    MissionQuiz,
+    MissionRecruiting,
+    MissionTeaching,
+    Prize,
+    Question,
+    Rank,
+)
 
 
 class RankForm(ModelForm):
@@ -57,6 +67,12 @@ class MissionQuizForm(MissionForm):
         model = MissionQuiz
         fields = "__all__"
         widgets = {"competence_level": forms.HiddenInput()}
+
+
+class QuestionForm(ModelForm):
+    class Meta:
+        model = Question
+        fields = "__all__"
 
 
 class MissionForceCodeForm(Form):

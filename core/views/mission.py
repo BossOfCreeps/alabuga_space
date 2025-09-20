@@ -10,8 +10,9 @@ from core.forms import (
     MissionQuizForm,
     MissionRecruitingForm,
     MissionTeachingForm,
+    QuestionForm,
 )
-from core.models import Competence, Mission, MissionCode, MissionQuiz, MissionRecruiting, MissionTeaching
+from core.models import Competence, Mission, MissionCode, MissionQuiz, MissionRecruiting, MissionTeaching, Question
 from utils.forms import parse_competence_levels_map, show_bootstrap_error_message
 from utils.qr import decode_qr_from_image
 
@@ -105,3 +106,23 @@ class MissionForceCodeView(FormView):
 class MissionGraphView(ListView):
     template_name = "mission/graph.html"
     queryset = Mission.objects.all()
+
+
+class QuestionMixin(ModelFormMixin, ProcessFormView):
+    queryset = Question.objects.all()
+    form_class = QuestionForm
+    template_name = "mission/question_form.html"
+    success_url = reverse_lazy("index")  # TODO:
+
+
+class QuestionCreateView(QuestionMixin, CreateView):
+    pass
+
+
+class QuestionUpdateView(QuestionMixin, UpdateView):
+    pass
+
+
+class QuestionDeleteView(QuestionMixin, DeleteView):
+    template_name = "mission/question_delete.html"
+    form_class = Form

@@ -94,11 +94,12 @@ class MissionQuiz(Mission):
 
 
 class Question(models.Model):
-    text = models.TextField()
-    file = models.FileField()
+    name = models.CharField("Название", max_length=1024)
+    description = models.TextField("Описание")
+    file = models.FileField("Файл")
 
     def __str__(self):
-        return self.text
+        return self.name
 
     class Meta:
         verbose_name, verbose_name_plural = "Вопрос", "Вопросы"

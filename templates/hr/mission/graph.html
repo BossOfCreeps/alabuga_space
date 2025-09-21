@@ -1,9 +1,8 @@
-{% extends "base.html" %}
+{% extends "hr/base.html" %}
 {% block content %}
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>Граф миссий</h1>
                 <div id="cy"></div>
             </div>
         </div>
@@ -72,7 +71,7 @@
 
         cy.on('dbltap', 'node', function(evt) {
             const nodeData = evt.target.data();
-            window.location.href = '/mission/' + nodeData.id + '/update/'; // TODO
+            window.location.href = '/hr/mission/' + nodeData.id + '/update/'; // TODO
         });
     </script>
 {% endblock %}

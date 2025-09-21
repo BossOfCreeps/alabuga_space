@@ -1,0 +1,82 @@
+{% load django_bootstrap5 %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            {% block title %}{% endblock %}
+        </title>
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+        <script src="https://unpkg.com/htmx.org@1.8.0"></script>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+        <script src="https://js.cytoscape.org/js/cytoscape.min.js"></script>
+        <script src="https://cdn.rawgit.com/cpettitt/dagre/v0.7.4/dist/dagre.min.js"></script>
+        <script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-dagre/1.5.0/cytoscape-dagre.js"></script>
+        <link href="{% static "styles/styles.css" %}" rel="stylesheet">
+        <script src="{% static 'scripts/scripts.js' %}"></script>
+    </head>
+    <body>
+        {% if not request.htmx or request.htmx.boosted %}
+            <nav class="navbar navbar-expand-lg navbar-light bg-light mb-5">
+                <div class="container">
+                    <a class="navbar-brand" href="#">
+                        <img src="{% static 'image/logo.png' %}" alt="Логотип">
+                    </a>
+                    <button class="navbar-toggler"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#navbarContent">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="{% url "hr-index" %}">Главная</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'rank-list' %}">Ранги</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'competence-list' %}">Компетенции</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'prize-list' %}">Артефакты</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle"
+                                   href="#"
+                                   id="productsDropdown"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">Миссии</a>
+                                <ul class="dropdown-menu" aria-labelledby="productsDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'question-list' %}">Список миссий</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'mission-graph' %}">Последовательность миссий</a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'question-list' %}">Вопросы</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="d-flex">
+                            <button class="btn btn-primary">Войти</button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </body>
+    {% block scripts %}{% endblock %}
+</html>

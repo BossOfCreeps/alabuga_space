@@ -1,6 +1,6 @@
 from django.forms import Form
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, FormView, UpdateView
+from django.views.generic import CreateView, DeleteView, FormView, ListView, UpdateView
 
 from core.forms import RankForm
 from core.models import Competence, Rank
@@ -10,7 +10,7 @@ from utils.forms import parse_competence_levels_map, show_bootstrap_error_messag
 class RankMixin(FormView):
     queryset = Rank.objects.prefetch_related("missions", "competence_level").all()
     form_class = RankForm
-    template_name = "rank/form.html"
+    template_name = "hr/rank/form.html"
     success_url = reverse_lazy("index")  # TODO:
 
     def get_form_kwargs(self):
@@ -32,6 +32,10 @@ class RankMixin(FormView):
         return super().form_invalid(form)
 
 
+class RankListView(RankMixin, ListView):
+    template_name = "hr/rank/list.html"
+
+
 class RankCreateView(RankMixin, CreateView):
     pass
 
@@ -44,5 +48,5 @@ class RankUpdateView(RankMixin, UpdateView):
 
 
 class RankDeleteView(RankMixin, DeleteView):
-    template_name = "rank/delete.html"
+    template_name = "hr/rank/delete.html"
     form_class = Form

@@ -1,5 +1,3 @@
-from .competence import *
+from .hr import *
 from .index import *
-from .mission import *
-from .prize import *
-from .rank import *
+from .missions import *

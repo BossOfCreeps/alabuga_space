@@ -2,16 +2,8 @@ from django.contrib import messages
 from django.forms import Form
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, FormView, ListView, UpdateView
-from django.views.generic.edit import ModelFormMixin, ProcessFormView
 
-from core.forms import (
-    MissionCodeForm,
-    MissionForceCodeForm,
-    MissionQuizForm,
-    MissionRecruitingForm,
-    MissionTeachingForm,
-    QuestionForm,
-)
+from core.forms import MissionCodeForm, MissionQuizForm, MissionRecruitingForm, MissionTeachingForm, QuestionForm
 from core.models import (
     Answer,
     Competence,
@@ -23,12 +15,11 @@ from core.models import (
     Question,
 )
 from utils.forms import parse_competence_levels_map, show_bootstrap_error_message
-from utils.qr import decode_qr_from_image
 
 
-class MissionMixin(ModelFormMixin, ProcessFormView):
+class MissionMixin(FormView):
     queryset = Mission.objects.all()
-    template_name = "mission/form.html"
+    template_name = "hr/mission/form.html"
     success_url = reverse_lazy("index")  # TODO:
 
     def get_form_class(self):
@@ -66,6 +57,10 @@ class MissionMixin(ModelFormMixin, ProcessFormView):
         return super().form_invalid(form)
 
 
+class MissionListView(MissionMixin, ListView):
+    template_name = "hr/mission/list.html"
+
+
 class MissionCreateView(MissionMixin, CreateView):
     pass
 
@@ -78,49 +73,19 @@ class MissionUpdateView(MissionMixin, UpdateView):
 
 
 class MissionDeleteView(MissionMixin, DeleteView):
-    template_name = "mission/delete.html"
+    template_name = "hr/mission/delete.html"
     form_class = Form
 
 
-class MissionForceCodeView(FormView):
-    form_class = MissionForceCodeForm
-    template_name = "mission/force_code.html"
-    success_url = reverse_lazy("index")  # TODO:
-
-    def form_valid(self, form):
-        data = form.cleaned_data
-
-        if (data["text"] == "" and data["image"] is None) or (data["text"] != "" and data["image"] is not None):
-            messages.error(self.request, "Должен быть отправлен текст или изображение")
-            return self.form_invalid(form)
-
-        if data["image"] is not None:
-            text = decode_qr_from_image(data["image"].read())
-        else:
-            text = data["text"]
-
-        mission: MissionCode = MissionCode.objects.filter(code=text).first()
-        if mission is None:
-            messages.error(self.request, "Миссия не найдена")
-            return self.form_invalid(form)
-
-        v = mission.verify(self.request.user, text)
-        if v is False:
-            messages.error(self.request, "Миссия не найдена")
-            return self.form_invalid(form)
-
-        return super().form_valid(form)
-
-
 class MissionGraphView(ListView):
-    template_name = "mission/graph.html"
+    template_name = "hr/mission/graph.html"
     queryset = Mission.objects.all()
 
 
-class QuestionMixin(ModelFormMixin, ProcessFormView):
+class QuestionMixin(FormView):
     queryset = Question.objects.all()
     form_class = QuestionForm
-    template_name = "mission/question_form.html"
+    template_name = "hr/mission/question_form.html"
     success_url = reverse_lazy("index")  # TODO:
 
     def form_valid(self, form):
@@ -151,6 +116,10 @@ class QuestionMixin(ModelFormMixin, ProcessFormView):
         return super().form_valid(form)
 
 
+class QuestionListView(QuestionMixin, ListView):
+    template_name = "hr/mission/question_list.html"
+
+
 class QuestionCreateView(QuestionMixin, CreateView):
     pass
 
@@ -160,5 +129,5 @@ class QuestionUpdateView(QuestionMixin, UpdateView):
 
 
 class QuestionDeleteView(QuestionMixin, DeleteView):
-    template_name = "mission/question_delete.html"
+    template_name = "hr/mission/question_delete.html"
     form_class = Form

@@ -24,36 +24,35 @@
                     <tr>
                         <td>{{ rank.id }}</td>
                         <td>{{ rank.name }}</td>
+                        <td>{{ rank.experience }}</td>
                         <td>
-                            {{ rank.experience }}
-                            <td>
-                                {% for mission in rank.missions.all %}
-                                    <span>{{ mission }}</span>
-                                    <br>
-                                {% endfor %}
-                            </td>
-                            <td>
-                                {% for competence_level in rank.competence_level.all %}
-                                    <span>{{ competence_level }}</span>
-                                    <br>
-                                {% endfor %}
-                            </td>
-                            <th>
-                                <a href="{% url 'rank-update' rank.id %}" class="btn btn-secondary">
-                                    <i class="fa fa-pencil"></i>
-                                </a>
-                                <a href="{% url 'rank-delete' rank.id %}" class="btn btn-danger">
-                                    <i class="fa fa-trash"></i>
-                                </a>
-                            </th>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    {% endblock %}
-    {% block scripts %}
-        <script>
+                            {% for mission in rank.missions.all %}
+                                <span>{{ mission }}</span>
+                                <br>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for competence_level in rank.competence_level.all %}
+                                <span>{{ competence_level }}</span>
+                                <br>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <a href="{% url 'rank-update' rank.id %}" class="btn btn-secondary">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                            <a href="{% url 'rank-delete' rank.id %}" class="btn btn-danger">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
             $(document).ready(function() {
                 new DataTable('#example', {
                     language: {url: 'https://cdn.datatables.net/plug-ins/2.3.4/i18n/ru.json',},
@@ -82,5 +81,5 @@
                     info: false,
                 });
         });
-        </script>
-    {% endblock %}
+    </script>
+{% endblock %}

@@ -27,6 +27,7 @@ from core.views import (
     RankListView,
     RankUpdateView,
 )
+from core.views.hr.user import UserListView
 
 urlpatterns = [
     path("", IndexView.as_view(), name="index"),
@@ -60,4 +61,6 @@ urlpatterns = [
     path("hr/mission/question/create/", QuestionCreateView.as_view(), name="question-create"),
     path("hr/mission/question/<int:pk>/update/", QuestionUpdateView.as_view(), name="question-update"),
     path("hr/mission/question/<int:pk>/delete/", QuestionDeleteView.as_view(), name="question-delete"),
+    #
+    path("hr/users/", UserListView.as_view(), name="user-list"),
 ]

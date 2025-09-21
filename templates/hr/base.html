@@ -24,7 +24,7 @@
         <script src="https://cdn.datatables.net/v/bs5/dt-2.3.4/cc-1.1.0/datatables.min.js"
                 integrity="sha384-TvniY7Bsq1NdUY7AI5UWDlQ6Ka+bGd4B423kL8lP3KiDpOF5oZzlx2WsHxgn/dZP"
                 crossorigin="anonymous"></script>
-        <link href="{% static "styles/styles.css" %}" rel="stylesheet">
+        <link href="{% static "styles/hr.css" %}" rel="stylesheet">
         <script src="{% static 'scripts/scripts.js' %}"></script>
     </head>
     <body>
@@ -42,9 +42,6 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="{% url "hr-index" %}">Главная</a>
-                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'rank-list' %}">Ранги</a>
                             </li>
@@ -78,7 +75,7 @@
                             </li>
                         </ul>
                         <div class="d-flex">
-                            <button class="btn btn-primary">Войти</button>
+                            <a href="{% url 'hr-logout' %}" class="btn btn-danger">Выйти</a>
                         </div>
                     </div>
                 </div>

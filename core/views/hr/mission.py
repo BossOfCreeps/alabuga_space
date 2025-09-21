@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.forms import Form
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, FormView, ListView, UpdateView
+from django.views.generic import CreateView, DeleteView, FormView, ListView, TemplateView, UpdateView
 
 from core.forms import MissionCodeForm, MissionQuizForm, MissionRecruitingForm, MissionTeachingForm, QuestionForm
 from core.models import (
@@ -14,6 +14,7 @@ from core.models import (
     MissionTeaching,
     MissionTree,
     Question,
+    Rank,
 )
 from utils.forms import parse_competence_levels_map, show_bootstrap_error_message
 
@@ -95,9 +96,15 @@ class MissionDeleteView(MissionMixin, DeleteView):
     form_class = Form
 
 
-class MissionGraphView(ListView):
+class MissionGraphView(TemplateView):
     template_name = "hr/mission/graph.html"
-    queryset = Mission.objects.all()
+
+    def get_queryset(self):
+        if "rank" in self.request.GET:
+            return Mission.objects.filter(rank=self.request.GET["rank"])
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs) | {"object_list": self.get_queryset(), "ranks": Rank.objects.all()}
 
 
 class QuestionMixin(FormView):

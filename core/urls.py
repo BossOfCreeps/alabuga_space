@@ -5,7 +5,8 @@ from core.views import (
     CompetenceDeleteView,
     CompetenceListView,
     CompetenceUpdateView,
-    HrIndexView,
+    HrLoginView,
+    HrLogoutView,
     IndexView,
     MissionCreateView,
     MissionDeleteView,
@@ -31,7 +32,8 @@ urlpatterns = [
     path("", IndexView.as_view(), name="index"),
     path("mission/force_code/", MissionForceCodeView.as_view(), name="mission-code"),
     #
-    path("hr/", HrIndexView.as_view(), name="hr-index"),
+    path("hr/", HrLoginView.as_view(), name="hr-login"),
+    path("hr/logout/", HrLogoutView.as_view(), name="hr-logout"),
     #
     path("hr/ranks/", RankListView.as_view(), name="rank-list"),
     path("hr/hr/ranks/<int:pk>/update/", RankUpdateView.as_view(), name="rank-update"),

@@ -1,0 +1,14 @@
+{% extends 'hr/base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+{% block content %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <form class="col-6 p-4" method="post">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <button type="submit" class="btn btn-primary mt-3 w-100">Войти</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

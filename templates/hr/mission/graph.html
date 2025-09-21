@@ -3,12 +3,33 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
+                <select class="form-select" aria-label="" onchange="updateQueryParam(this)">
+                    {{ object_list }}
+                    {% if not request.GET.rank %}<option selected>Выберите ранг</option>{% endif %}
+                    {% for rank in ranks %}
+                        <option value="{{ rank.id }}"
+                                {% if request.GET.rank == rank.id|stringformat:"s" %}selected{% endif %}>
+                            {{ rank }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
                 <div id="cy"></div>
             </div>
         </div>
     </div>
 {% endblock %}
 {% block scripts %}
+    <script>
+        function updateQueryParam(select) {
+          const url = new URL(window.location.href);
+          url.searchParams.set('rank', select.value);
+          window.location.href = url.toString();
+        }
+    </script>
     <script>
         var cy = window.cy = cytoscape({
             container: document.getElementById('cy'),
@@ -71,7 +92,7 @@
 
         cy.on('dbltap', 'node', function(evt) {
             const nodeData = evt.target.data();
-            window.location.href = '/hr/mission/' + nodeData.id + '/update/'; // TODO
+            window.location.href = '/hr/mission/' + nodeData.id + '/update/';
         });
     </script>
 {% endblock %}

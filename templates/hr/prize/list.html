@@ -13,6 +13,7 @@
                 <tr>
                     <th>Название</th>
                     <th>Редкость</th>
+                    <th>Цена</th>
                     <th>Необходимо уведомить HR о получении</th>
                     <th>Действия</th>
                 </tr>
@@ -22,6 +23,13 @@
                     <tr>
                         <td>{{ prize.name }}</td>
                         <td>{{ prize.rare }}</td>
+                        <td>
+                            {% if prize.is_buying %}
+                                {{ prize.price }}
+                            {% else %}
+                                Не продаётся
+                            {% endif %}
+                        </td>
                         <td>
                             {% if rize.need_hr_notif %}
                                 Да
@@ -50,7 +58,7 @@
                     language: {url: 'https://cdn.datatables.net/plug-ins/2.3.4/i18n/ru.json',},
                     columnDefs: [
                         {
-                            targets: [0,1,2],
+                            targets: [0,1,2,3],
                             columnControl: {
                                 target: 0,
                                 className: 'dtcc-row_no-bottom-border',

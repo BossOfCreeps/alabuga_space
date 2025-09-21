@@ -7,6 +7,7 @@ from core.models import CompetenceLevel, Mission, Prize
 class User(AbstractUser):
     experience = models.PositiveSmallIntegerField("Опыт", default=0)
     rank = models.PositiveIntegerField("Ранг", default=1)
+    mana = models.PositiveSmallIntegerField("Мана", default=0)
 
     missions = models.ManyToManyField(Mission, "users", verbose_name="Пройденные миссии", blank=True)
     competence_level = models.ManyToManyField(

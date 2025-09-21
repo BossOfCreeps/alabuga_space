@@ -1,0 +1,78 @@
+{% extends "hr/base.html" %}
+{% load django_bootstrap5 %}
+{% block content %}
+    <div class="container">
+        <a href="{% url 'rank-create' %}">
+            <button class="btn btn-success">
+                <i class="fa fa-add"></i>
+                Добавить ранг
+            </button>
+        </a>
+        <table class="table table-bordered" id="example">
+            <thead>
+                <tr>
+                    <th>Уровень</th>
+                    <th>Название</th>
+                    <th>Требуемый опыт</th>
+                    <th>Требуемые миссии</th>
+                    <th>Требуемые уровни компетенций</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rank in object_list %}
+                    <tr>
+                        <td>{{ rank.id }}</td>
+                        <td>{{ rank.name }}</td>
+                        <td>
+                            {{ rank.experience }}
+                            <td>
+                                {% for mission in rank.missions.all %}
+                                    <span>{{ mission }}</span>
+                                    <br>
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% for competence_level in rank.competence_level.all %}
+                                    <span>{{ competence_level }}</span>
+                                    <br>
+                                {% endfor %}
+                            </td>
+                            <th>
+                                <a href="{% url 'rank-update' rank.id %}" class="btn btn-secondary">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                                <a href="{% url 'rank-delete' rank.id %}" class="btn btn-danger">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </th>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endblock %}
+    {% block scripts %}
+        <script>
+            $(document).ready(function() {
+                new DataTable('#example', {
+                    language: {url: 'https://cdn.datatables.net/plug-ins/2.3.4/i18n/ru.json',},
+                    columnDefs: [{
+                        targets: [0, 1, 2],
+                        columnControl: {
+                            target: 0,
+                            className: 'dtcc-row_no-bottom-border',
+                            content: ['order', ['title', 'orderAsc', 'orderDesc', 'spacer', 'searchList']]
+                        }
+                    }],
+                    ordering: {
+                        handler: false,
+                        indicators: false,
+                    },
+                    paging: false,
+                    searching: false,
+                    info: false,
+                });
+        });
+        </script>
+    {% endblock %}

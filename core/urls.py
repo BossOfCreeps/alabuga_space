@@ -27,6 +27,7 @@ from core.views import (
     RankListView,
     RankUpdateView,
 )
+from core.views.hr.notification import NotificationCheckView, NotificationListView
 from core.views.hr.user import UserListView
 
 urlpatterns = [
@@ -63,4 +64,7 @@ urlpatterns = [
     path("hr/mission/question/<int:pk>/delete/", QuestionDeleteView.as_view(), name="question-delete"),
     #
     path("hr/users/", UserListView.as_view(), name="user-list"),
+    #
+    path("hr/notifications/", NotificationListView.as_view(), name="notifications-list"),
+    path("hr/notifications/<int:pk>/check/", NotificationCheckView.as_view(), name="notifications-check"),
 ]

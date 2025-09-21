@@ -1,7 +1,7 @@
 {% extends "hr/base.html" %}
 {% load django_bootstrap5 %}
 {% block content %}
-    <div class="container">
+    <div class="m-5">
         <div class="dropdown">
             <button class="btn btn-success dropdown-toggle"
                     type="button"
@@ -53,6 +53,7 @@
                         миссии
                     </th>
                     <th>Данные</th>
+                    <th>Выполнено</th>
                     <th>Действия</th>
                 </tr>
             </thead>
@@ -89,6 +90,7 @@
                             {% endfor %}
                         </td>
                         <td>{{ mission.type_data }}</td>
+                        <td>{{ mission.users.count }}</td>
                         <td>
                             <a href="{% url 'mission-update' mission.id %}"
                                class="btn btn-secondary">
@@ -111,7 +113,7 @@
                     language: {url: 'https://cdn.datatables.net/plug-ins/2.3.4/i18n/ru.json',},
                     columnDefs: [
                         {
-                            targets: [0,1,2,3,4],
+                            targets: [0,1,2,3,4,10],
                             columnControl: {
                                 target: 0,
                                 className: 'dtcc-row_no-bottom-border',
@@ -126,7 +128,7 @@
                                 content: [[ 'searchList']]
                             }
                         },
-                        { width: '114px', targets: -1 }
+                        { width: '116px', targets: -1 }
                     ],
                     ordering: false,
                     paging: false,

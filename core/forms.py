@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
+from django.db.models import Q
 from django.forms import Form, ModelForm
 
 from core.models import (
@@ -43,6 +44,14 @@ class PrizeForm(ModelForm):
 
 class MissionForm(ModelForm):
     childrens = forms.ModelMultipleChoiceField(Mission.objects.all(), label="Дочерние миссии", required=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if hasattr(self, "instance") and self.instance and self.instance.pk:
+            self.fields["childrens"].queryset = Mission.objects.filter(
+                Q(rank=self.instance.rank), ~Q(id=self.instance.id)
+            )
 
     class Meta:
         model = Mission

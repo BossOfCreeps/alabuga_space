@@ -2,12 +2,28 @@
 {% load django_bootstrap5 %}
 {% block content %}
     <div class="container">
-        <a href="{% url 'mission-create' %}">
-            <button class="btn btn-success">
-                <i class="fa fa-add"></i>
-                Добавить миссию
+        <div class="dropdown">
+            <button class="btn btn-success dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                <i class="fa fa-add"></i> Добавить миссию
             </button>
-        </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item" href="{% url 'mission-create' %}?type=t">Лекторий</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{% url 'mission-create' %}?type=r">Рекрутинг</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{% url 'mission-create' %}?type=c">Квест</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{% url 'mission-create' %}?type=q">Симулятор</a>
+                </li>
+            </ul>
+        </div>
         <table class="table table-bordered" id="example">
             <thead>
                 <tr>

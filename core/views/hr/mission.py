@@ -64,6 +64,8 @@ class MissionMixin(FormView):
                 "prizes": self.request.POST.getlist("prizes"),
                 "childrens": self.request.POST.getlist("childrens"),
                 "competence_level": parse_competence_levels_map(self.request.POST.dict()),
+                #
+                "questions": self.request.POST.getlist("questions"),
             }
 
         return kwargs
@@ -118,7 +120,7 @@ class QuestionMixin(FormView):
 
         has_answer = False
         for k, v in data.items():
-            if k.startswith("answer_correct_") and v:
+            if k.startswith("answer_correct_"):
                 has_answer = True
                 break
 

@@ -3,6 +3,28 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
+                <div class="dropdown mb-3">
+                    <button class="btn btn-success dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        <i class="fa fa-add"></i> Добавить миссию
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="{% url 'mission-create' %}?type=t">Лекторий</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{% url 'mission-create' %}?type=r">Рекрутинг</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{% url 'mission-create' %}?type=c">Квест</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{% url 'mission-create' %}?type=q">Симулятор</a>
+                        </li>
+                    </ul>
+                </div>
                 <select class="form-select" aria-label="" onchange="updateQueryParam(this)">
                     {{ object_list }}
                     {% if not request.GET.rank %}<option selected>Выберите ранг</option>{% endif %}

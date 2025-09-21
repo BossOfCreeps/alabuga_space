@@ -35,6 +35,8 @@ class PrizeForm(ModelForm):
 
 
 class MissionForm(ModelForm):
+    childrens = forms.ModelMultipleChoiceField(Mission.objects.all(), label="Дочерние миссии", required=False)
+
     class Meta:
         model = Mission
         fields = "__all__"

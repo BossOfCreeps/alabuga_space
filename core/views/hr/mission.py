@@ -12,6 +12,7 @@ from core.models import (
     MissionQuiz,
     MissionRecruiting,
     MissionTeaching,
+    MissionTree,
     Question,
 )
 from utils.forms import parse_competence_levels_map, show_bootstrap_error_message
@@ -38,12 +39,27 @@ class MissionMixin(FormView):
             "q": MissionQuizForm,
         }.get(self.request.GET.get("type"))
 
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["childrens"] = Mission.objects.filter(
+            id__in=MissionTree.objects.filter(parent=self.object).values_list("child", flat=True)
+        )
+        return initial
+
+    def form_valid(self, form):
+        self.object = form.save()
+        MissionTree.objects.filter(parent=self.object).delete()
+        for child in self.request.POST.getlist("childrens"):
+            MissionTree.objects.create(parent=self.object, child_id=child)
+        return super().form_valid(form)
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
 
         if self.request.method in ("POST", "PUT"):
             kwargs["data"] = self.request.POST.dict() | {
                 "prizes": self.request.POST.getlist("prizes"),
+                "childrens": self.request.POST.getlist("childrens"),
                 "competence_level": parse_competence_levels_map(self.request.POST.dict()),
             }
 
@@ -93,12 +109,12 @@ class QuestionMixin(FormView):
 
         has_answer = False
         for k, v in data.items():
-            if k.startswith("answer_text_") and v:
+            if k.startswith("answer_correct_") and v:
                 has_answer = True
                 break
 
         if not has_answer:
-            messages.error(self.request, "Вопрос должен иметь хотя бы один ответ")
+            messages.error(self.request, "Вопрос должен иметь хотя бы один правильный ответ")
             return self.form_invalid(form)
 
         self.object = form.save()

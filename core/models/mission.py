@@ -17,6 +17,9 @@ class Mission(PolymorphicModel):  # условно абстрактный кла
     prizes = models.ManyToManyField(Prize, "missions", verbose_name="Дает призы", blank=True)
     competence_level = models.ManyToManyField(CompetenceLevel, "missions", verbose_name="Даёт компетенции", blank=True)
 
+    def type_data(self) -> str:
+        raise NotImplementedError
+
     def __str__(self):
         return self.name
 
@@ -34,6 +37,9 @@ class MissionCode(Mission):
     code = models.CharField("Код", max_length=1024, unique=True)
 
     mission_type = "Квест"
+
+    def type_data(self) -> str:
+        return f"Код: {self.code}"
 
     def verify(self, user, code: str):
         v = self.rank == user.rank and self.code == code and self not in user.missions.all()
@@ -68,6 +74,9 @@ class MissionRecruiting(Mission):
 
     mission_type = "Рекрутинг"
 
+    def type_data(self) -> str:
+        return f"Нужно пригласить: {self.invited}"
+
     class Meta:
         verbose_name, verbose_name_plural = "Миссия Рекрутинг", "Миссии Рекрутинг"
         ordering = ["id"]
@@ -75,6 +84,9 @@ class MissionRecruiting(Mission):
 
 class MissionTeaching(Mission):
     content = CKEditor5Field(config_name="extends")
+
+    def type_data(self) -> str:
+        return f"Длина html: {len(self.content)}"
 
     mission_type = "Лекторий"
 
@@ -85,6 +97,9 @@ class MissionTeaching(Mission):
 
 class MissionQuiz(Mission):
     questions = models.ManyToManyField("Question", "missions", verbose_name="Вопросы")
+
+    def type_data(self) -> str:
+        return f"Кол-во вопросов: {self.questions.count()}"
 
     mission_type = "Симулятор"
 

@@ -11,7 +11,7 @@ class PrizeMixin(FormView):
     queryset = Prize.objects.all()
     form_class = PrizeForm
     template_name = "hr/prize/form.html"
-    success_url = reverse_lazy("index")  # TODO:
+    success_url = reverse_lazy("prize-list")
 
     def form_invalid(self, form):
         show_bootstrap_error_message(form, self.request)

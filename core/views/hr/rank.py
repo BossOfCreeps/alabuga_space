@@ -8,10 +8,10 @@ from utils.forms import parse_competence_levels_map, show_bootstrap_error_messag
 
 
 class RankMixin(FormView):
-    queryset = Rank.objects.prefetch_related("missions", "competence_level").all()
+    queryset = Rank.objects.prefetch_related("missions", "competence_level__competence").all()
     form_class = RankForm
     template_name = "hr/rank/form.html"
-    success_url = reverse_lazy("index")  # TODO:
+    success_url = reverse_lazy("rank-list")
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()

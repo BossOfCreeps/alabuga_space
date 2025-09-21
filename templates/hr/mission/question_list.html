@@ -1,0 +1,60 @@
+{% extends "hr/base.html" %}
+{% load django_bootstrap5 %}
+{% block content %}
+    <div class="container">
+        <a href="{% url 'question-create' %}">
+            <button class="btn btn-success">
+                <i class="fa fa-add"></i>
+                Добавить вопрос
+            </button>
+        </a>
+        <table class="table table-bordered" id="example">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in object_list %}
+                    <tr>
+                        <td>{{ question.name }}</td>
+                        <td>
+                            <a href="{% url 'question-update' question.id %}"
+                               class="btn btn-secondary">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                            <a href="{% url 'question-delete' question.id %}" class="btn btn-danger">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+            $(document).ready(function() {
+                new DataTable('#example', {
+                    language: {url: 'https://cdn.datatables.net/plug-ins/2.3.4/i18n/ru.json',},
+                    columnDefs: [
+                        {
+                            targets: [0],
+                            columnControl: {
+                                target: 0,
+                                className: 'dtcc-row_no-bottom-border',
+                                content: [['orderAsc', 'orderDesc', 'spacer', 'searchList']]
+                            }
+                        },
+                        { width: '114px', targets: -1 }
+                    ],
+                    ordering: false,
+                    paging: false,
+                    searching: false,
+                    info: false,
+                });
+        });
+    </script>
+{% endblock %}

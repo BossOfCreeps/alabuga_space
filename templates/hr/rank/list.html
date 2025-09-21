@@ -57,18 +57,26 @@
             $(document).ready(function() {
                 new DataTable('#example', {
                     language: {url: 'https://cdn.datatables.net/plug-ins/2.3.4/i18n/ru.json',},
-                    columnDefs: [{
-                        targets: [0, 1, 2],
-                        columnControl: {
-                            target: 0,
-                            className: 'dtcc-row_no-bottom-border',
-                            content: ['order', ['title', 'orderAsc', 'orderDesc', 'spacer', 'searchList']]
-                        }
-                    }],
-                    ordering: {
-                        handler: false,
-                        indicators: false,
-                    },
+                    columnDefs: [
+                        {
+                            targets: [0, 1, 2],
+                            columnControl: {
+                                target: 0,
+                                className: 'dtcc-row_no-bottom-border',
+                                content: [['orderAsc', 'orderDesc', 'spacer', 'searchList']]
+                            }
+                        },
+                        {
+                            targets: [3,4],
+                            columnControl: {
+                                target: 0,
+                                className: 'dtcc-row_no-bottom-border',
+                                content: [[ 'searchList']]
+                            }
+                        },
+                        { width: '114px', targets: -1 }
+                    ],
+                    ordering: false,
                     paging: false,
                     searching: false,
                     info: false,

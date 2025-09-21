@@ -21,10 +21,10 @@ from utils.forms import parse_competence_levels_map, show_bootstrap_error_messag
 class MissionMixin(FormView):
     queryset = Mission.objects.all()
     template_name = "hr/mission/form.html"
-    success_url = reverse_lazy("index")  # TODO:
+    success_url = reverse_lazy("mission-list")
 
     def get_form_class(self):
-        if self.object is not None:
+        if hasattr(self, "object") and self.object is not None:
             return {
                 MissionCode: MissionCodeForm,
                 MissionRecruiting: MissionRecruitingForm,
@@ -37,13 +37,15 @@ class MissionMixin(FormView):
             "r": MissionRecruitingForm,
             "t": MissionTeachingForm,
             "q": MissionQuizForm,
+            None: Form,
         }.get(self.request.GET.get("type"))
 
     def get_initial(self):
         initial = super().get_initial()
-        initial["childrens"] = Mission.objects.filter(
-            id__in=MissionTree.objects.filter(parent=self.object).values_list("child", flat=True)
-        )
+        if hasattr(self, "object") and self.object is not None:
+            initial["childrens"] = Mission.objects.filter(
+                id__in=MissionTree.objects.filter(parent=self.object).values_list("child", flat=True)
+            )
         return initial
 
     def form_valid(self, form):
@@ -102,7 +104,7 @@ class QuestionMixin(FormView):
     queryset = Question.objects.all()
     form_class = QuestionForm
     template_name = "hr/mission/question_form.html"
-    success_url = reverse_lazy("index")  # TODO:
+    success_url = reverse_lazy("question-list")
 
     def form_valid(self, form):
         data = self.request.POST.dict()

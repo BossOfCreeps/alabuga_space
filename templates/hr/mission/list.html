@@ -1,0 +1,122 @@
+{% extends "hr/base.html" %}
+{% load django_bootstrap5 %}
+{% block content %}
+    <div class="container">
+        <a href="{% url 'mission-create' %}">
+            <button class="btn btn-success">
+                <i class="fa fa-add"></i>
+                Добавить миссию
+            </button>
+        </a>
+        <table class="table table-bordered" id="example">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Тип</th>
+                    <th>Ранг</th>
+                    <th>Опыт</th>
+                    <th>Мана</th>
+                    <th>
+                        Даёт
+                        <br>
+                        артефакты
+                    </th>
+                    <th>
+                        Даёт
+                        <br>
+                        компетенции
+                    </th>
+                    <th>
+                        Род.
+                        <br>
+                        миссии
+                    </th>
+                    <th>
+                        Доч.
+                        <br>
+                        миссии
+                    </th>
+                    <th>Данные</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mission in object_list %}
+                    <tr>
+                        <td>{{ mission.name }}</td>
+                        <td>{{ mission.mission_type }}</td>
+                        <td>{{ mission.rank }}</td>
+                        <td>{{ mission.experience }}</td>
+                        <td>{{ mission.mana }}</td>
+                        <td>
+                            {% for prize in mission.prizes.all %}
+                                <span>{{ prize }}</span>
+                                <br>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for competence_level in mission.competence_level.all %}
+                                <span>{{ competence_level }}</span>
+                                <br>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for tree in mission.as_child.all %}
+                                <span>{{ tree.parent }}</span>
+                                <br>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for tree in mission.as_parent.all %}
+                                <span>{{ tree.child }}</span>
+                                <br>
+                            {% endfor %}
+                        </td>
+                        <td>{{ mission.type_data }}</td>
+                        <td>
+                            <a href="{% url 'mission-update' mission.id %}"
+                               class="btn btn-secondary">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                            <a href="{% url 'mission-delete' mission.id %}" class="btn btn-danger">
+                                <i class="fa fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+            $(document).ready(function() {
+                new DataTable('#example', {
+                    language: {url: 'https://cdn.datatables.net/plug-ins/2.3.4/i18n/ru.json',},
+                    columnDefs: [
+                        {
+                            targets: [0,1,2,3,4],
+                            columnControl: {
+                                target: 0,
+                                className: 'dtcc-row_no-bottom-border',
+                                content: [['orderAsc', 'orderDesc', 'spacer', 'searchList']]
+                            }
+                        },
+                        {
+                            targets: [5,6,7,8,9],
+                            columnControl: {
+                                target: 0,
+                                className: 'dtcc-row_no-bottom-border',
+                                content: [[ 'searchList']]
+                            }
+                        },
+                        { width: '114px', targets: -1 }
+                    ],
+                    ordering: false,
+                    paging: false,
+                    searching: false,
+                    info: false,
+                });
+        });
+    </script>
+{% endblock %}

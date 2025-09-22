@@ -17,6 +17,30 @@ class Mission(PolymorphicModel):  # условно абстрактный кла
     prizes = models.ManyToManyField(Prize, "missions", verbose_name="Дает призы", blank=True)
     competence_level = models.ManyToManyField(CompetenceLevel, "missions", verbose_name="Даёт компетенции", blank=True)
 
+    def do_success(self, user):
+        user.missions.add(self)
+        user.experience += self.experience
+        user.mana += self.mana
+
+        for prize in self.prizes.all():
+            user.prizes.add(prize)
+            if prize.need_hr_notif:
+                user.notifications.create(text=f"Пользователь получил приз {prize.name}")
+
+        user_cl_map = {o.competence_id: o.level for o in user.competence_level.all()}
+        for cl in self.competence_level.all():
+            if cl.competence_id not in user_cl_map:
+                user_cl_map[cl.competence_id] = cl.level
+            else:
+                user_cl_map[cl.competence_id] += cl.level
+
+        user.competence_level.clear()
+        for c_id, level in user_cl_map.items():
+            user.competence_level.add(CompetenceLevel.objects.get_or_create(competence_id=c_id, level=level)[0])
+
+        user.save()
+        user.check_next_rank()
+
     def type_data(self) -> str:
         raise NotImplementedError
 
@@ -44,24 +68,7 @@ class MissionCode(Mission):
     def verify(self, user, code: str):
         v = self.rank == user.rank and self.code == code and self not in user.missions.all()
         if v:
-            user.missions.add(self)
-            user.experience += self.experience
-            for prize in self.prizes.all():
-                user.prizes.add(prize)  # TODO:
-
-            user_cl_map = {o.competence_id: o.level for o in user.competence_level.all()}
-            for cl in self.competence_level.all():
-                if cl.competence_id not in user_cl_map:
-                    user_cl_map[cl.competence_id] = cl.level
-                else:
-                    user_cl_map[cl.competence_id] += cl.level
-
-            user.competence_level.clear()
-            for c_id, level in user_cl_map.items():
-                user.competence_level.add(CompetenceLevel.objects.get_or_create(competence_id=c_id, level=level)[0])
-
-            user.save()
-
+            self.do_success(user)
         return v
 
     class Meta:

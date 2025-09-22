@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from core.models import CompetenceLevel, Mission, Prize
+from core.models import CompetenceLevel, Mission, Prize, Rank
 
 
 class User(AbstractUser):
@@ -15,6 +15,25 @@ class User(AbstractUser):
     )
 
     prizes = models.ManyToManyField(Prize, "users", verbose_name="Полученные призы", blank=True)
+
+    def check_next_rank(self):
+        next_rank = Rank.objects.filter(id=self.rank + 1).first()
+        if not next_rank:
+            return
+
+        user_cl_map, has_competence_level = {o.competence_id: o.level for o in self.competence_level.all()}, True
+        for next_rank_cl in next_rank.competence_level.all():
+            if user_cl_map.get(next_rank_cl.competence_id, 0) < next_rank_cl.level:
+                has_competence_level = False
+                break
+
+        if (
+            self.experience >= next_rank.experience
+            and (set(next_rank.missions.values_list("pk")).issubset(set(self.missions.values_list("pk"))))
+            and has_competence_level
+        ):
+            self.rank = next_rank.id
+            self.save()
 
 
 class Notification(models.Model):

@@ -55,8 +55,17 @@
     <script>
             $(document).ready(function() {
                 new DataTable('#example', {
+                    responsive: true,
                     language: {url: 'https://cdn.datatables.net/plug-ins/2.3.4/i18n/ru.json',},
                     columnDefs: [
+                        {
+                            responsivePriority: 1,
+                            targets: [0, 1, 5]
+                        },
+                        {
+                            responsivePriority: 100,
+                            targets: [2, 3, 4]
+                        },
                         {
                             targets: [0, 1, 2],
                             columnControl: {

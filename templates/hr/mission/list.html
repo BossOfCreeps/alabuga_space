@@ -1,7 +1,7 @@
 {% extends "hr/base.html" %}
 {% load django_bootstrap5 %}
 {% block content %}
-    <div class="m-5">
+    <div class="m-3">
         <div class="dropdown">
             <button class="btn btn-success dropdown-toggle"
                     type="button"
@@ -110,8 +110,17 @@
     <script>
             $(document).ready(function() {
                 new DataTable('#example', {
+                    responsive: true,
                     language: {url: 'https://cdn.datatables.net/plug-ins/2.3.4/i18n/ru.json',},
                     columnDefs: [
+                        {
+                            responsivePriority: 1,
+                            targets: [0, 1, 11]
+                        },
+                        {
+                            responsivePriority: 100,
+                            targets: [2, 3, 4,5,6,7,8,9,10]
+                        },
                         {
                             targets: [0,1,2,3,4,10],
                             columnControl: {
@@ -128,7 +137,7 @@
                                 content: [[ 'searchList']]
                             }
                         },
-                        { width: '116px', targets: -1 }
+                        { width: '120px', targets: -1 }
                     ],
                     ordering: false,
                     paging: false,

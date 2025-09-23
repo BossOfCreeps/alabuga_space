@@ -1,6 +1,7 @@
 from django.urls import path
 
 from core.views import (
+    ChangeThemeView,
     CompetenceCreateView,
     CompetenceDeleteView,
     CompetenceListView,
@@ -36,6 +37,7 @@ urlpatterns = [
     #
     path("hr/", HrLoginView.as_view(), name="hr-login"),
     path("hr/logout/", HrLogoutView.as_view(), name="hr-logout"),
+    path("hr/change_theme/", ChangeThemeView.as_view(), name="hr-change_theme"),
     #
     path("hr/ranks/", RankListView.as_view(), name="rank-list"),
     path("hr/hr/ranks/<int:pk>/update/", RankUpdateView.as_view(), name="rank-update"),

@@ -8,6 +8,8 @@
         <title>
             {% block title %}{% endblock %}
         </title>
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
     </head>
     <body>
         {% if not request.htmx or request.htmx.boosted %}<!-- TODO: навигация -->{% endif %}

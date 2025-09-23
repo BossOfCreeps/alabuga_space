@@ -17,8 +17,6 @@ from core.models import (
 
 
 class LoginForm(AuthenticationForm):
-    # username = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Логин"}))
-    # password = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": "Пароль"}))
     pass
 
 

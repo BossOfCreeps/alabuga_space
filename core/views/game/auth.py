@@ -1,5 +1,7 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import FormView
 
 from core.forms import LoginForm
@@ -17,6 +19,12 @@ class LoginView(FormView):
             self.request, authenticate(username=form.cleaned_data["username"], password=form.cleaned_data["password"])
         )
         return super().form_valid(form)
+
+
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect("index")
 
 
 class RegisterView(FormView):

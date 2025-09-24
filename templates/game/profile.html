@@ -19,7 +19,7 @@
                                 <p class="mb-1">{{ request.user.get_full_name }}</p>
                                 <p class="mb-2">{{ request.user.email }}</p>
                             </div>
-                            <a class="btn btn-danger" href="#">
+                            <a class="btn btn-danger" href="{% url 'logout' %}">
                                 <i class="fa fa-door-open"></i> Выйти
                             </a>
                         </div>

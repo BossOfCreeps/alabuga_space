@@ -11,6 +11,7 @@ from core.views import (
     IndexView,
     JournalView,
     LoginView,
+    LogoutView,
     MissionCreateView,
     MissionDeleteView,
     MissionForceCodeView,
@@ -79,6 +80,7 @@ urlpatterns = hr_urls + [
     path("", IndexView.as_view(), name="index"),
     #
     path("login/", LoginView.as_view(), name="login"),
+    path("logout/", LogoutView.as_view(), name="logout"),
     path("register/", RegisterView.as_view(), name="register"),
     #
     path("missions/", MissionsView.as_view(), name="missions"),

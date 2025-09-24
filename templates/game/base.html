@@ -51,7 +51,7 @@
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="#"
+                        <a href="{% url 'profile' %}"
                            class="nav-link {% if request.path|startswith:'/profile/' %}active{% endif %}">
                             <i class="fa fa-user-astronaut"></i>
                             <span>Профиль</span>

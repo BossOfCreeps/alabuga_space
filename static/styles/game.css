@@ -364,3 +364,100 @@ a.btn::after {
 .viewed{
     text-decoration: line-through;
 }
+
+
+.achievement-scroll {
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 10px;
+}
+.achievement-scroll::-webkit-scrollbar {
+
+}
+.achievement-item {
+    display: inline-block;
+    width: 80px;
+    text-align: center;
+    margin-right: 15px;
+}
+.progress-bar-level {
+    height: 20px;
+    border-radius: 10px;
+}
+.activity-item {
+    border-left: 3px solid #0d6efd;
+    padding-left: 15px;
+    margin-bottom: 15px;
+}
+.avatar-container {
+    position: relative;
+    display: inline-block;
+}
+.level-badge {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: #ffc107;
+    color: #000;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+.competence-item {
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+}
+.competence-progress {
+    height: 8px;
+}
+.section-card {
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.achievement-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 8px;
+    color: white;
+    font-size: 24px;
+}
+@media (max-width: 576px) {
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+    }
+    .achievement-item {
+        width: 70px;
+    }
+    .achievement-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+}

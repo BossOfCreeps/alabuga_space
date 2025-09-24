@@ -23,6 +23,7 @@ from core.views import (
     PrizeDeleteView,
     PrizeListView,
     PrizeUpdateView,
+    ProfileView,
     QuestionCreateView,
     QuestionDeleteView,
     QuestionListView,
@@ -81,6 +82,7 @@ urlpatterns = hr_urls + [
     #
     path("missions/", MissionsView.as_view(), name="missions"),
     path("ranks/", RanksView.as_view(), name="ranks"),
+    path("profile/", ProfileView.as_view(), name="profile"),
     #
     path("mission/force_code/", MissionForceCodeView.as_view(), name="mission-code"),
 ]

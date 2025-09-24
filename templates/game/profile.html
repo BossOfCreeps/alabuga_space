@@ -1,0 +1,101 @@
+{% extends 'game/base.html' %}
+{% load type_logic %}
+{% block content %}
+    <div class="container py-4">
+        <div class="card section-card">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-12 col-md-auto text-center mb-3 mb-md-0">
+                        <div class="avatar-container">
+                            <img src="{{ rank.image.url }}" alt="Аватар" class="profile-avatar">
+                            <div class="level-badge">{{ request.user.rank }}</div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h2 class="h4 mb-1">{{ request.user.username }}</h2>
+                                <p class="mb-1">{{ request.user.get_full_name }}</p>
+                                <p class="mb-2">{{ request.user.email }}</p>
+                            </div>
+                            <a class="btn btn-danger" href="#">
+                                <i class="fa fa-door-open"></i> Выйти
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <div class="card section-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <div>
+                                <h5 class="card-title">Уровень {{ request.user.rank }}</h5>
+                                <span>Опыт: {{ request.user.experience }}/{{ next_rank.experience }}</span>
+                            </div>
+                            <button class="btn btn btn-success">Таблица лидеров</button>
+                        </div>
+                        <div class="progress progress-bar-level mb-3">
+                            <div class="progress-bar bg-success"
+                                 role="progressbar"
+                                 style="width: {{ request.user.experience|divide:next_rank.experience|multiple:100 }}%">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card section-card">
+                    <div class="card-body">
+                        <div class="section-header">
+                            <h5 class="card-title mb-0">Журнал действий</h5>
+                            <a href="#" class="btn btn-primary">Все действия</a>
+                        </div>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <div class="d-flex justify-content-between">
+                                    <strong>Завершено задание "Оптимизация кода"</strong>
+                                    <small>2 часа назад</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-4">
+                <div class="card section-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Компетенции</h5>
+                        <div class="competence-item">
+                            {% for competence_level in request.user.competence_level.all %}
+                                <div class="d-flex justify-content-between mb-1">
+                                    <span>{{ competence_level.competence.name }}</span>
+                                    <span>{{ competence_level.level }}</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card section-card">
+                    <div class="card-body">
+                        <div class="section-header">
+                            <h5 class="card-title mb-0">Артефакты</h5>
+                            <a href="#" class="btn btn-secondary">Магазин</a>
+                        </div>
+                        <div class="achievement-scroll">
+                            {% for prize in request.user.prizes.all %}
+                                <div class="achievement-item">
+                                    <img class="achievement-icon"
+                                         src="{{ prize.image.url }}"
+                                         alt="{{ prize.name }}">
+                                    <!--TODO-->
+                                    <small>{{ prize }}</small>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,6 +1,8 @@
+from django.shortcuts import redirect
+from django.views import View
 from django.views.generic import ListView, TemplateView
 
-from core.models import Rank
+from core.models import Prize, Rank
 from users.models import Journal
 
 
@@ -21,3 +23,19 @@ class JournalView(ListView):
 
     def get_queryset(self):
         return Journal.objects.filter(user=self.request.user)
+
+
+class ShopView(ListView):
+    template_name = "game/shop.html"
+    queryset = Prize.objects.filter(is_buying=True)
+
+
+class ShopBuyView(View):
+    def get(self, request, pk):
+        prize = Prize.objects.get(id=pk)
+        if request.user.mana >= prize.price:
+            request.user.mana -= prize.price
+            request.user.save()
+            Journal.objects.create(user=request.user, text=f"Куплен артефакт {prize.name}")
+
+        return redirect("profile")

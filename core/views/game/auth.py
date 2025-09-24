@@ -9,6 +9,14 @@ from users.forms import UserRegisterForm
 from utils.forms import show_bootstrap_error_message
 
 
+class IndexView(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            return redirect("missions")
+        else:
+            return redirect("login")
+
+
 class LoginView(FormView):
     form_class = LoginForm
     template_name = "game/login.html"

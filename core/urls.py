@@ -36,6 +36,8 @@ from core.views import (
     RanksView,
     RankUpdateView,
     RegisterView,
+    ShopBuyView,
+    ShopView,
     UserListView,
 )
 
@@ -87,6 +89,8 @@ urlpatterns = hr_urls + [
     path("ranks/", RanksView.as_view(), name="ranks"),
     path("profile/", ProfileView.as_view(), name="profile"),
     path("profile/journal/", JournalView.as_view(), name="journal"),
+    path("profile/shop/", ShopView.as_view(), name="shop"),
+    path("profile/shop/<int:pk>/buy/", ShopBuyView.as_view(), name="shop-buy"),
     #
     path("mission/force_code/", MissionForceCodeView.as_view(), name="mission-code"),
 ]

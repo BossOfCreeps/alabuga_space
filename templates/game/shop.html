@@ -1,0 +1,30 @@
+{% extends 'game/base.html' %}
+{% load tz %}
+{% load type_logic %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="card-title mt-4 mb-4">Магазин</h3>
+            </div>
+        </div>
+        <div class="row">
+            {% for prize in object_list %}
+                <div class="col-sm-3">
+                    <div class="card">
+                        <img src="{{ prize.image.url }}"
+                             class="card-img-top"
+                             alt="{{ prize.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ prize.name }}</h5>
+                            <p class="card-text">{{ prize.description }}</p>
+                            {% if request.user.mana >= prize.price %}
+                                <a href="{% url 'shop-buy' prize.id %}" class="btn btn-primary">Купить (<i class="fa fa-flask"></i> {{ prize.price }})</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

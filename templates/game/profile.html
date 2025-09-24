@@ -82,8 +82,11 @@
                 <div class="card section-card">
                     <div class="card-body">
                         <div class="section-header">
-                            <h5 class="card-title mb-0">Артефакты</h5>
-                            <a href="#" class="btn btn-secondary">Магазин</a>
+                            <div>
+                                <h5 class="card-title">Артефакты</h5>
+                                <span>Мана: {{ request.user.mana }}</span>
+                            </div>
+                            <a href="{% url 'shop' %}" class="btn btn-secondary">Магазин</a>
                         </div>
                         <div class="achievement-scroll">
                             {% for prize in request.user.prizes.all %}

@@ -11,7 +11,9 @@ class MissionsView(ListView):
     template_name = "game/missions.html"
 
     def get_queryset(self):
-        return Mission.objects.prefetch_related("prizes", "competence_level").filter(rank=self.request.user.rank)
+        return Mission.objects.prefetch_related("prizes", "competence_level__competence").filter(
+            rank=self.request.user.rank
+        )
 
 
 class MissionForceCodeView(FormView):

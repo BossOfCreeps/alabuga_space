@@ -281,7 +281,8 @@ a.btn::after {
 .progress {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
-    height: 12px;
+    height: 30px;
+    font-size: 20px;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -346,4 +347,22 @@ a.btn::after {
 #cy {
     width: 100%;
     height: calc(100vh - 100px);
+}
+
+.ranks-container {
+    overflow-y: auto;
+}
+
+.rank-card-current {
+    border: 5px solid #00f5d4;
+}
+
+.rank-card-locked {
+    border: 5px solid #6b7280;
+}
+.rank-card-experience {
+    color: #a0d2ff;
+}
+.viewed{
+    text-decoration: line-through;
 }

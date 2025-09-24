@@ -1,3 +1,4 @@
+{% load type_logic %}
 {% load django_bootstrap5 %}
 {% load static %}
 <!DOCTYPE html>
@@ -36,19 +37,22 @@
             <div class="container">
                 <div class="d-flex justify-content-around">
                     <div class="nav-item">
-                        <a href="{% url 'missions' %}" class="nav-link active" data-page="home">
+                        <a href="{% url 'missions' %}"
+                           class="nav-link {% if request.path|startswith:'/missions/' %}active{% endif %}">
                             <i class="fa fa-rocket"></i>
                             <span>Миссии</span>
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="#" class="nav-link" data-page="search">
+                        <a href="{% url 'ranks' %}"
+                           class="nav-link {% if request.path|startswith:'/ranks/' %}active{% endif %}">
                             <i class="fa fa-ranking-star"></i>
                             <span>Ранг</span>
                         </a>
                     </div>
                     <div class="nav-item">
-                        <a href="#" class="nav-link" data-page="notifications">
+                        <a href="#"
+                           class="nav-link {% if request.path|startswith:'/profile/' %}active{% endif %}">
                             <i class="fa fa-user-astronaut"></i>
                             <span>Профиль</span>
                         </a>

@@ -93,7 +93,7 @@
         cy.on('dbltap', 'node', function(evt) {
             const nodeData = evt.target.data();
             if (nodeData.class === 'open'){
-                window.location.href = '/game/mission/' + nodeData.id + '/';
+                window.location.href = '/missions/' + nodeData.id + '/';
             }
         });
     </script>

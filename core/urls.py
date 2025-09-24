@@ -30,6 +30,7 @@ from core.views import (
     RankCreateView,
     RankDeleteView,
     RankListView,
+    RanksView,
     RankUpdateView,
     RegisterView,
     UserListView,
@@ -79,7 +80,7 @@ urlpatterns = hr_urls + [
     path("register/", RegisterView.as_view(), name="register"),
     #
     path("missions/", MissionsView.as_view(), name="missions"),
-    path("mission/force_code/", MissionForceCodeView.as_view(), name="mission-code"),
+    path("ranks/", RanksView.as_view(), name="ranks"),
     #
     path("mission/force_code/", MissionForceCodeView.as_view(), name="mission-code"),
 ]

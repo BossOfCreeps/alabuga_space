@@ -49,3 +49,16 @@ class Notification(models.Model):
     class Meta:
         verbose_name, verbose_name_plural = "Уведомление", "Уведомления"
         ordering = ["-id"]
+
+
+class Journal(models.Model):
+    user = models.ForeignKey(User, models.CASCADE, "journals", verbose_name="Пользователь")
+    text = models.TextField("Текст")
+    created_at = models.DateTimeField("Дата создания", auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.created_at} - {self.user}"
+
+    class Meta:
+        verbose_name, verbose_name_plural = "Запись в журнале", "Записи в журнале"
+        ordering = ["-id"]

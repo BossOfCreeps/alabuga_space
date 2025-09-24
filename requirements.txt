@@ -32,3 +32,4 @@ pyzbar==0.1.9 # на мак https://github.com/npinchot/zbar/issues/3#issuecomme
 sqlparse==0.5.3
 tzdata==2025.2
 virtualenv==20.34.0
+pytz==2025.2

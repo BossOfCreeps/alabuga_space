@@ -1,4 +1,5 @@
 {% extends 'game/base.html' %}
+{% load tz %}
 {% load type_logic %}
 {% block content %}
     <div class="container py-4">
@@ -49,15 +50,17 @@
                     <div class="card-body">
                         <div class="section-header">
                             <h5 class="card-title mb-0">Журнал действий</h5>
-                            <a href="#" class="btn btn-primary">Все действия</a>
+                            <a href="{% url 'journal' %}" class="btn btn-primary">Все действия</a>
                         </div>
-                        <div class="activity-list">
-                            <div class="activity-item">
-                                <div class="d-flex justify-content-between">
-                                    <strong>Завершено задание "Оптимизация кода"</strong>
-                                    <small>2 часа назад</small>
+                        <div>
+                            {% for journal in request.user.journals.all|slice:"0:3" %}
+                                <div class="activity-item">
+                                    <div class="d-flex justify-content-between">
+                                        <strong>{{ journal.text|linebreaks }}</strong>
+                                        <small>{{ journal.created_at|localtime }}</small>
+                                    </div>
                                 </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

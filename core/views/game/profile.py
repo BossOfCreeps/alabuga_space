@@ -1,6 +1,7 @@
-from django.views.generic import TemplateView
+from django.views.generic import ListView, TemplateView
 
 from core.models import Rank
+from users.models import Journal
 
 
 class ProfileView(TemplateView):
@@ -11,3 +12,11 @@ class ProfileView(TemplateView):
             "rank": Rank.objects.get(id=self.request.user.rank),
             "next_rank": Rank.objects.filter(id=self.request.user.rank + 1).first(),
         }
+
+
+class JournalView(ListView):
+    template_name = "game/journal.html"
+    model = Journal
+
+    def get_queryset(self):
+        return Journal.objects.filter(user=self.request.user)

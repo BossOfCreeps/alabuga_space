@@ -1,0 +1,26 @@
+{% extends 'game/base.html' %}
+{% load tz %}
+{% load type_logic %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="card-title mt-4 mb-4">Журнал действий</h3>
+                <div>
+                    {% for journal in object_list %}
+                        <div class="card section-card">
+                            <div class="card-body">
+                                <div class="activity-item">
+                                    <div class="d-flex justify-content-between">
+                                        <strong>{{ journal.text|linebreaks }}</strong>
+                                        <small>{{ journal.created_at|localtime }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -61,5 +61,16 @@
             </div>
         </nav>
     </body>
+    <script>
+        function setUserTimezone() {
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            
+            if (!document.cookie.includes('django_timezone')) {
+                document.cookie = `user_timezone=${timezone}; path=/; max-age=2592000`; // 30 дней
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', setUserTimezone);
+    </script>
     {% block scripts %}{% endblock %}
 </html>

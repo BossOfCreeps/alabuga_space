@@ -1,0 +1,80 @@
+{% extends "game/base.html" %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mt-3">
+                <div id="cy"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        var cy = window.cy = cytoscape({
+            container: document.getElementById('cy'),
+
+            boxSelectionEnabled: false, // Разрешаем выделение области
+            autounselectify: false, // Разрешаем выделение элементов
+            userPanningEnabled: false, // ОТКЛЮЧАЕМ перетаскивание графа
+            userZoomingEnabled: false, // Оставляем zoom
+
+            elements: {
+              nodes: [
+                  {% for m in object_list %}
+                      { data: { id: '{{ m.id }}', label: '{{ m.name }}' }, grabbable: false },
+                  {% endfor %}
+              ],
+              edges: [
+                  {% for parent_m in object_list %}
+                      {% for tree in parent_m.as_parent.all %}
+                        { data: { source: '{{ parent_m.id }}', target: '{{ tree.child_id }}' } },
+                      {% endfor %}
+                  {% endfor %}
+              ]
+            },
+            layout: {
+              name: 'dagre',
+              rankDir: 'TB',
+              nodeDimensionsIncludeLabels: true
+            },
+            style: [
+                {
+                selector: 'node',
+                style: {
+                    'shape': 'rectangle',
+                    'content': 'data(label)',
+                    'grabbable': 'false',
+                    'background-color': '#283a97',
+                    'border-width': 1,
+                    'border-color': '#00aeef',
+                    'border-opacity': 0.8,
+                    'width': 'mapData(size, 0, 100, 20, 60)',
+                    'height': 'mapData(size, 0, 100, 20, 60)',
+                    'color': '#ffffff',
+                    'text-outline-width': 0.5,
+                    'text-outline-color': '#000000',
+                    'font-size': '6px',
+                    'text-valign': 'center',
+                    'text-halign': 'center',
+                }
+              },
+              {
+                selector: 'edge',
+                style: {
+                    'width': 2,
+                    'line-color': '#00aeef',
+                    'target-arrow-color': '#00aeef',
+                    'target-arrow-shape': 'triangle',
+                    'curve-style': 'bezier',
+                    'opacity': 0.7
+                }
+              },
+            ]
+          });
+
+        cy.on('dbltap', 'node', function(evt) {
+            const nodeData = evt.target.data();
+            window.location.href = '/game/mission/' + nodeData.id + '/';
+        });
+    </script>
+{% endblock %}

@@ -309,7 +309,12 @@ a.btn::after {
     color: #0d6efd;
 }
 
-.nav-icon {
+.nav-link i {
     font-size: 20px;
     margin-bottom: 4px;
+}
+
+#cy {
+  width: 100%;
+  height: calc(100vh - 100px);
 }

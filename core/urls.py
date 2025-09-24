@@ -15,6 +15,7 @@ from core.views import (
     MissionForceCodeView,
     MissionGraphView,
     MissionListView,
+    MissionsView,
     MissionUpdateView,
     NotificationCheckView,
     NotificationListView,
@@ -34,14 +35,7 @@ from core.views import (
     UserListView,
 )
 
-urlpatterns = [
-    path("", IndexView.as_view(), name="index"),
-    path("login/", LoginView.as_view(), name="login"),
-    path("register/", RegisterView.as_view(), name="register"),
-    path("mission/force_code/", MissionForceCodeView.as_view(), name="mission-code"),
-    #
-    #
-    #
+hr_urls = [
     path("hr/", HrLoginView.as_view(), name="hr-login"),
     path("hr/logout/", HrLogoutView.as_view(), name="hr-logout"),
     path("hr/change_theme/", ChangeThemeView.as_view(), name="hr-change_theme"),
@@ -76,4 +70,16 @@ urlpatterns = [
     #
     path("hr/notifications/", NotificationListView.as_view(), name="notifications-list"),
     path("hr/notifications/<int:pk>/check/", NotificationCheckView.as_view(), name="notifications-check"),
+]
+
+urlpatterns = hr_urls + [
+    path("", IndexView.as_view(), name="index"),
+    #
+    path("login/", LoginView.as_view(), name="login"),
+    path("register/", RegisterView.as_view(), name="register"),
+    #
+    path("missions/", MissionsView.as_view(), name="missions"),
+    path("mission/force_code/", MissionForceCodeView.as_view(), name="mission-code"),
+    #
+    path("mission/force_code/", MissionForceCodeView.as_view(), name="mission-code"),
 ]

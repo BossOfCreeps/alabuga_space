@@ -1,10 +1,17 @@
 from django.contrib import messages
 from django.urls import reverse_lazy
-from django.views.generic import FormView
+from django.views.generic import FormView, ListView
 
 from core.forms import MissionForceCodeForm
-from core.models import MissionCode
+from core.models import Mission, MissionCode
 from utils.qr import decode_qr_from_image
+
+
+class MissionsView(ListView):
+    template_name = "game/missions.html"
+
+    def get_queryset(self):
+        return Mission.objects.prefetch_related("prizes", "competence_level").filter(rank=self.request.user.rank)
 
 
 class MissionForceCodeView(FormView):

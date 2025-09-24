@@ -1,5 +1,10 @@
-from django.views.generic import TemplateView
+from django.shortcuts import redirect
+from django.views import View
 
 
-class IndexView(TemplateView):
-    template_name = "game/index.html"
+class IndexView(View):
+    def get(self, request):
+        if request.user.is_authenticated:
+            return redirect("missions")
+        else:
+            return redirect("login")

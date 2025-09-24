@@ -1,4 +1,5 @@
 {% extends "game/base.html" %}
+{% load user_logic %}
 {% block content %}
     <div class="container">
         <div class="row">
@@ -21,7 +22,7 @@
             elements: {
               nodes: [
                   {% for m in object_list %}
-                      { data: { id: '{{ m.id }}', label: '{{ m.name }}' }, grabbable: false },
+                      { data: { id: '{{ m.id }}', label: '{{ m.name }}', class: '{{ m|get_mission_type:request.user }}' }, grabbable: false },
                   {% endfor %}
               ],
               edges: [
@@ -44,9 +45,9 @@
                     'shape': 'rectangle',
                     'content': 'data(label)',
                     'grabbable': 'false',
-                    'background-color': '#283a97',
+                    'background-color': '#00d1b2',
+                    'border-color': '#00f5d4',
                     'border-width': 1,
-                    'border-color': '#00aeef',
                     'border-opacity': 0.8,
                     'width': 'mapData(size, 0, 100, 20, 60)',
                     'height': 'mapData(size, 0, 100, 20, 60)',
@@ -58,6 +59,23 @@
                     'text-halign': 'center',
                 }
               },
+            {
+                selector: 'node[class = "compiled"]',
+                style: {
+                    'background-color': '#283a97',
+                    'border-width': 1,
+                    'border-color': '#00aeef',
+                }
+            },
+            {
+                selector: 'node[class = "locked"]',
+                style: {
+                    'background-color': '#6b7280',
+                    'border-color': '#9ca3af',
+                    'border-width': 1,
+                    'opacity': 0.6
+                }
+            },
               {
                 selector: 'edge',
                 style: {
@@ -74,7 +92,9 @@
 
         cy.on('dbltap', 'node', function(evt) {
             const nodeData = evt.target.data();
-            window.location.href = '/game/mission/' + nodeData.id + '/';
+            if (nodeData.class === 'open'){
+                window.location.href = '/game/mission/' + nodeData.id + '/';
+            }
         });
     </script>
 {% endblock %}

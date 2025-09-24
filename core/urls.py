@@ -9,12 +9,15 @@ from core.views import (
     HrLoginView,
     HrLogoutView,
     IndexView,
+    LoginView,
     MissionCreateView,
     MissionDeleteView,
     MissionForceCodeView,
     MissionGraphView,
     MissionListView,
     MissionUpdateView,
+    NotificationCheckView,
+    NotificationListView,
     PrizeCreateView,
     PrizeDeleteView,
     PrizeListView,
@@ -27,13 +30,17 @@ from core.views import (
     RankDeleteView,
     RankListView,
     RankUpdateView,
+    RegisterView,
+    UserListView,
 )
-from core.views.hr.notification import NotificationCheckView, NotificationListView
-from core.views.hr.user import UserListView
 
 urlpatterns = [
     path("", IndexView.as_view(), name="index"),
+    path("login/", LoginView.as_view(), name="login"),
+    path("register/", RegisterView.as_view(), name="register"),
     path("mission/force_code/", MissionForceCodeView.as_view(), name="mission-code"),
+    #
+    #
     #
     path("hr/", HrLoginView.as_view(), name="hr-login"),
     path("hr/logout/", HrLogoutView.as_view(), name="hr-logout"),

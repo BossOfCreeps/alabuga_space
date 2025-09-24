@@ -1,0 +1,52 @@
+{% load django_bootstrap5 %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            {% block title %}{% endblock %}
+        </title>
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+        <script src="https://unpkg.com/htmx.org@1.8.0"></script>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+        <script src="https://js.cytoscape.org/js/cytoscape.min.js"></script>
+        <script src="https://cdn.rawgit.com/cpettitt/dagre/v0.7.4/dist/dagre.min.js"></script>
+        <script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-dagre/1.5.0/cytoscape-dagre.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+        <link href="https://cdn.datatables.net/v/bs5/dt-2.3.4/cc-1.1.0/r-3.0.6/datatables.min.css"
+              rel="stylesheet"
+              integrity="sha384-J9sByJqc7aFtpa/p3+RvVXdwDcmYzOe4xoAvHPrnbK0IU/LEyeVf3FvlpuCKk0Xf"
+              crossorigin="anonymous">
+        <script src="https://cdn.datatables.net/v/bs5/dt-2.3.4/cc-1.1.0/r-3.0.6/datatables.min.js"
+                integrity="sha384-Q8EUWi3cPzrh/7cmW/l0GdIB2qJ25Wa0rLHPfuQpKZt88OBP2xV5f2ejnXdNyKLJ"
+                crossorigin="anonymous"></script>
+        <link href="{% static "styles/game.css" %}" rel="stylesheet">
+        <script src="{% static 'scripts/scripts.js' %}"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="text-center mt-4 mb-3">
+                        <img src="{% static 'image/navbar_logo_dank.png' %}" alt="">
+                    </div>
+                    {% bootstrap_messages %}
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        {% bootstrap_form form layout='vertical' %}
+                        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                    </form>
+                    <div class="mt-3 text-center">
+                        <p>
+                            Уже есть аккаунт? <a href="{% url 'login' %}">Войдите</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

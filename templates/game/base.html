@@ -1,0 +1,67 @@
+{% load django_bootstrap5 %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            {% block title %}{% endblock %}
+        </title>
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+        <script src="https://unpkg.com/htmx.org@1.8.0"></script>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+        <script src="https://js.cytoscape.org/js/cytoscape.min.js"></script>
+        <script src="https://cdn.rawgit.com/cpettitt/dagre/v0.7.4/dist/dagre.min.js"></script>
+        <script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-dagre/1.5.0/cytoscape-dagre.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+        <link href="https://cdn.datatables.net/v/bs5/dt-2.3.4/cc-1.1.0/r-3.0.6/datatables.min.css"
+              rel="stylesheet"
+              integrity="sha384-J9sByJqc7aFtpa/p3+RvVXdwDcmYzOe4xoAvHPrnbK0IU/LEyeVf3FvlpuCKk0Xf"
+              crossorigin="anonymous">
+        <script src="https://cdn.datatables.net/v/bs5/dt-2.3.4/cc-1.1.0/r-3.0.6/datatables.min.js"
+                integrity="sha384-Q8EUWi3cPzrh/7cmW/l0GdIB2qJ25Wa0rLHPfuQpKZt88OBP2xV5f2ejnXdNyKLJ"
+                crossorigin="anonymous"></script>
+        <link href="{% static "styles/game.css" %}" rel="stylesheet">
+        <script src="{% static 'scripts/scripts.js' %}"></script>
+    </head>
+    <body>
+        <div>
+            {% if not request.htmx or request.htmx.boosted %}{% endif %}
+            {% block content %}{% endblock %}
+        </div>
+        <nav class="bottom-nav">
+            <div class="container">
+                <div class="d-flex justify-content-around">
+                    <div class="nav-item">
+                        <a href="#" class="nav-link active" data-page="home">
+                            <i class="fa fa-home nav-icon"></i>
+                            <span>Главная</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="#" class="nav-link" data-page="search">
+                            <i class="fa fa-search nav-icon"></i>
+                            <span>Поиск</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="#" class="nav-link" data-page="notifications">
+                            <i class="fa fa-bell nav-icon"></i>
+                            <span>Уведомления</span>
+                        </a>
+                    </div>
+                    <div class="nav-item">
+                        <a href="#" class="nav-link" data-page="profile">
+                            <i class="fa fa-person nav-icon"></i>
+                            <span>Профиль</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </body>
+    {% block scripts %}{% endblock %}
+</html>

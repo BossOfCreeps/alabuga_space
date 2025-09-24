@@ -22,7 +22,7 @@
         </div>
         <div class="ranks-container">
             {% for rank in object_list %}
-                <div class="card {% if request.user.rank == rank.id %}rank-card-current{% endif %} {% if request.user.rank < rank.id %}rank-card-locked{% endif %}"
+                <div class="card {% if request.user.rank == rank.id %}rank-card-open{% endif %}{% if request.user.rank > rank.id %}rank-card-compiled{% endif %}{% if request.user.rank < rank.id %}rank-card-locked{% endif %}"
                      id="rank-{{ rank.id }}">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start mb-2">
@@ -30,7 +30,7 @@
                         </div>
                         <div class="mb-2">
                             <p class="rank-card-experience mb-0">
-                                <i class="fa-solid fa-book"></i> {{ rank.experience }}
+                                <i class="fa-solid fa-scroll"></i> {{ rank.experience }}
                             </p>
                             {% for mission in rank.missions.all %}
                                 <p class="rank-card-experience mb-0">

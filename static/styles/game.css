@@ -178,12 +178,13 @@ a.btn::after {
     border-radius: 15px;
     color: #ffffff;
     transition: all 0.3s ease;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.3);
+    margin: 10px 0;
 }
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0, 174, 239, 0.3);
+    box-shadow: 0 8px 10px rgba(0, 174, 239, 0.3);
     border-color: rgba(106, 206, 246, 0.4);
 }
 
@@ -296,13 +297,6 @@ a.btn::after {
     box-shadow: 0 0 10px rgba(0, 174, 239, 0.5);
 }
 
-/* Адаптивность */
-@media (max-width: 768px) {
-    .card {
-        margin-bottom: 1rem;
-    }
-}
-
 /*
 .modal-content, .dropdown-menu, .popover, .tooltip {
     backdrop-filter: blur(10px);
@@ -353,7 +347,11 @@ a.btn::after {
     overflow-y: auto;
 }
 
-.rank-card-current {
+.rank-card-compiled {
+    border: 5px solid #283a97;
+}
+
+.rank-card-open {
     border: 5px solid #00f5d4;
 }
 

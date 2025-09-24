@@ -8,32 +8,54 @@
     --cosmic-danger: #ff3860;
     --cosmic-success: #00d1b2;
     --cosmic-warning: #ffdd57;
-    --cosmic-gradient: linear-gradient(135deg, #0a0f2d 0%, #283a97 50%, #005dac 100%);
-    --cosmic-gradient-nav: linear-gradient(to top, #0a0f2d 0%, #1a237e 50%, #283a97 100%);
-    --cosmic-nebula: radial-gradient(circle at 30% 50%, rgba(106, 206, 246, 0.1) 0%, rgba(42, 58, 151, 0.3) 50%, transparent 70%);
+    --cosmic-gradient: linear-gradient(
+        135deg,
+        #0a0f2d 0%,
+        #283a97 50%,
+        #005dac 100%
+    );
+    --cosmic-gradient-nav: linear-gradient(
+        to top,
+        #0a0f2d 0%,
+        #1a237e 50%,
+        #283a97 100%
+    );
+    --cosmic-nebula: radial-gradient(
+        circle at 30% 50%,
+        rgba(106, 206, 246, 0.1) 0%,
+        rgba(42, 58, 151, 0.3) 50%,
+        transparent 70%
+    );
 }
 
 /* Основные стили */
 body {
     background: var(--cosmic-gradient);
     color: #ffffff;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
     position: relative;
     padding-bottom: 70px;
 }
 
 body::before {
-    content: '';
+    content: "";
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background:
-        var(--cosmic-nebula),
-        radial-gradient(circle at 20% 80%, rgba(0, 174, 239, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(106, 206, 246, 0.03) 0%, transparent 50%);
+    background: var(--cosmic-nebula),
+        radial-gradient(
+            circle at 20% 80%,
+            rgba(0, 174, 239, 0.05) 0%,
+            transparent 50%
+        ),
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(106, 206, 246, 0.03) 0%,
+            transparent 50%
+        );
     z-index: -1;
 }
 
@@ -53,7 +75,7 @@ a:hover {
 }
 
 a::after {
-    content: '';
+    content: "";
     position: absolute;
     width: 0;
     height: 2px;
@@ -85,10 +107,15 @@ a.btn::after {
 }
 
 .btn::before {
-    content: '';
+    content: "";
     color: #ffffff !important;
     position: absolute;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+    );
     transition: left 0.6s ease;
 }
 
@@ -141,16 +168,6 @@ a.btn::after {
     color: var(--cosmic-light) !important;
     font-weight: bold;
     text-shadow: 0 0 10px rgba(106, 206, 246, 0.5);
-}
-
-.nav-link {
-    color: #ffffff !important;
-    transition: all 0.3s ease;
-}
-
-.nav-link:hover {
-    color: var(--cosmic-light) !important;
-    text-shadow: 0 0 8px rgba(106, 206, 246, 0.7);
 }
 
 /* Карточки */
@@ -207,7 +224,11 @@ a.btn::after {
 
 /* Alert danger */
 .alert-danger {
-    background: linear-gradient(135deg, rgba(255, 0, 0, 0.15) 0%, rgba(255, 77, 77, 0.1) 100%);
+    background: linear-gradient(
+        135deg,
+        rgba(255, 0, 0, 0.15) 0%,
+        rgba(255, 77, 77, 0.1) 100%
+    );
     border: 2px solid rgba(255, 77, 77, 0.6);
     color: #ffb3b3;
     border-radius: 12px;
@@ -222,7 +243,9 @@ a.btn::after {
 }
 
 .alert-dismissible .btn-close {
-    background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ff6b6b'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+    background: transparent
+        url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ff6b6b'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e")
+        center/1em auto no-repeat;
     opacity: 0.7;
     transition: all 0.3s ease;
     padding: 0.75rem;
@@ -263,7 +286,11 @@ a.btn::after {
 }
 
 .progress-bar {
-    background: linear-gradient(90deg, var(--cosmic-primary), var(--cosmic-info));
+    background: linear-gradient(
+        90deg,
+        var(--cosmic-primary),
+        var(--cosmic-info)
+    );
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 174, 239, 0.5);
 }
@@ -296,8 +323,9 @@ a.btn::after {
     text-align: center;
     padding: 10px 0;
 }
+
 .nav-link {
-    color: #6c757d;
+    color: #ffffff;
     text-decoration: none;
     display: flex;
     flex-direction: column;
@@ -307,6 +335,7 @@ a.btn::after {
 
 .nav-link.active {
     color: #0d6efd;
+    text-shadow: 0 0 10px rgba(0, 174, 239, 0.7);
 }
 
 .nav-link i {
@@ -315,6 +344,6 @@ a.btn::after {
 }
 
 #cy {
-  width: 100%;
-  height: calc(100vh - 100px);
+    width: 100%;
+    height: calc(100vh - 100px);
 }

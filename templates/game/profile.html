@@ -33,7 +33,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between mb-2">
                             <div>
-                                <h5 class="card-title">Уровень {{ request.user.rank }}</h5>
+                                <h5 class="card-title">Ранг: {{ request.user.rank }}</h5>
                                 <span>Опыт: {{ request.user.experience }}/{{ next_rank.experience }}</span>
                             </div>
                             <a href="{% url 'leaderboard' %}" class="btn btn btn-success">Таблица лидеров</a>

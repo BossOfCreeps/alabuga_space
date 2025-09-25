@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.urls import reverse_lazy
-from django.views.generic import FormView, ListView
+from django.views.generic import DetailView, FormView, ListView
 
 from core.forms import MissionForceCodeForm
 from core.models import Mission, MissionCode
@@ -14,6 +14,11 @@ class MissionsView(ListView):
         return Mission.objects.prefetch_related("prizes", "competence_level__competence").filter(
             rank=self.request.user.rank
         )
+
+
+class MissionView(DetailView):
+    template_name = "game/mission.html"
+    queryset = Mission.objects.prefetch_related("prizes", "competence_level__competence")
 
 
 class MissionForceCodeView(FormView):

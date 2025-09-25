@@ -20,6 +20,7 @@ from core.views import (
     MissionListView,
     MissionsView,
     MissionUpdateView,
+    MissionView,
     NotificationCheckView,
     NotificationListView,
     PrizeCreateView,
@@ -87,7 +88,10 @@ urlpatterns = hr_urls + [
     path("register/", RegisterView.as_view(), name="register"),
     #
     path("missions/", MissionsView.as_view(), name="missions"),
+    path("missions/<int:pk>/", MissionView.as_view(), name="mission"),
+    #
     path("ranks/", RanksView.as_view(), name="ranks"),
+    #
     path("profile/", ProfileView.as_view(), name="profile"),
     path("profile/leaderboard/", LeaderboardView.as_view(), name="leaderboard"),
     path("profile/journal/", JournalView.as_view(), name="journal"),

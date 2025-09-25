@@ -19,13 +19,17 @@ class Mission(PolymorphicModel):  # условно абстрактный кла
 
     def do_success(self, user):
         user.missions.add(self)
+        user.journals.create(
+            text=f"Пользователь прошёл миссию {self.name} (+{self.experience} опыта, +{self.mana} маны)"
+        )
         user.experience += self.experience
         user.mana += self.mana
 
         for prize in self.prizes.all():
             user.prizes.add(prize)
             if prize.need_hr_notif:
-                user.notifications.create(text=f"Пользователь получил приз {prize.name}")
+                user.notifications.create(text=f"Пользователь получил артефакт {prize.name}")
+                user.journals.create(text=f"Получен артефакт {self.name}")
 
         user_cl_map = {o.competence_id: o.level for o in user.competence_level.all()}
         for cl in self.competence_level.all():

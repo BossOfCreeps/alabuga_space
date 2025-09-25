@@ -1,0 +1,94 @@
+{% extends 'game/base.html' %}
+{% block content %}
+    <div class="container py-4">
+        <div class="mission-header">
+            <div class="rank-badge">
+                <i class="fa fa-ranking-star"></i> Ранг {{ object.rank }}
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-4">
+                    {% if object.image %}
+                        <img src="{{ object.image.url }}"
+                             alt="{{ object.name }}"
+                             class="mission-image">
+                    {% else %}
+                        <img src="TODO" alt="{{ object.name }}" class="mission-image">
+                    {% endif %}
+                </div>
+                <div class="col-md-8">
+                    <h1 class="display-5 fw-bold">{{ object.name }}</h1>
+                    <h2>{{ object.mission_type }}</h2>
+                    <div class="mission-description">{{ object.description|linebreaks }}</div>
+                </div>
+            </div>
+        </div>
+        <h3 class="mb-4">
+            <i class="bi bi-award"></i> Награды за выполнение
+        </h3>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="card reward-card experience-reward">
+                    <div class="card-body text-center">
+                        <div class="reward-icon">
+                            <i class="fa-solid fa-scroll"></i>
+                        </div>
+                        <h5>Опыт</h5>
+                        <h2 class="fw-bold">{{ object.experience }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card reward-card mana-reward">
+                    <div class="card-body text-center">
+                        <div class="reward-icon">
+                            <i class="fa fa-flask"></i>
+                        </div>
+                        <h5>Мана</h5>
+                        <h2 class="fw-bold">{{ object.mana }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card reward-card prize-reward">
+                    <div class="card-body text-center">
+                        <div class="reward-icon">
+                            <i class="fa-solid fa-socks"></i>
+                        </div>
+                        <h5>Призы</h5>
+                        <div class="prizes-list">
+                            {% for prize in object.prizes.all %}
+                                <span class="badge bg-light text-dark mb-1">{{ prize.name }}</span>
+                            {% empty %}
+                                <h2 class="fw-bold">-</h2>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card reward-card competence-reward">
+                    <div class="card-body text-center">
+                        <div class="reward-icon">
+                            <i class="fa fa-book"></i>
+                        </div>
+                        <h5>Компетенции</h5>
+                        <div class="competences-list">
+                            {% for competence in object.competence_level.all %}
+                                <div class="competence-level">{{ competence.competence.name }} +{{ competence.level }}</div>
+                            {% empty %}
+                                <h2 class="fw-bold">-</h2>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-12">
+                <a href="#" class="btn btn-primary w-100">
+                    <i class="bi bi-play-fill"></i> Начать миссию
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

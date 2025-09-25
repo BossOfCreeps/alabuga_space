@@ -3,7 +3,7 @@ from django.views import View
 from django.views.generic import ListView, TemplateView
 
 from core.models import Prize, Rank
-from users.models import Journal
+from users.models import Journal, User
 
 
 class ProfileView(TemplateView):
@@ -15,6 +15,14 @@ class ProfileView(TemplateView):
             "rank": rank,
             "next_rank": Rank.objects.filter(id=self.request.user.rank + 1).first() or rank,
         }
+
+
+class LeaderboardView(ListView):
+    template_name = "game/leaderboard.html"
+    queryset = User.objects.order_by("-experience")
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs) | {"ranks": Rank.objects.all()}
 
 
 class JournalView(ListView):

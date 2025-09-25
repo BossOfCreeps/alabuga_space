@@ -1,0 +1,27 @@
+{% extends 'game/base.html' %}
+{% load model_info %}
+{% block content %}
+    <div class="container">
+        <div>
+            <h3 class="card-title mt-4 mb-4">Таблица лидеров</h3>
+            <div class="card-body">
+                <div class="leaders-list">
+                    {% for user in object_list %}
+                        <div class="leader-item {% if user == request.user %}me{% endif %} ">
+                            <div class="leader-rank">{{ forloop.counter }}</div>
+                            <img src="{{ user|get_avatar }}"
+                                 alt="Аватар"
+                                 class="leader-avatar {% if forloop.counter == 1 %}first-place{% endif %} {% if forloop.counter == 2 %}second-place{% endif %}  {% if forloop.counter == 3 %}third-place{% endif %}  ">
+                            <div class="leader-info">
+                                <div class="leader-name">{{ user.username }}</div>
+                                <div class="leader-name">{{ user.get_full_name }}</div>
+                                <div class="leader-level">Уровень {{ user.rank }}</div>
+                            </div>
+                            <div class="leader-exp">{{ user.experience }} XP</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -36,7 +36,7 @@
                                 <h5 class="card-title">Уровень {{ request.user.rank }}</h5>
                                 <span>Опыт: {{ request.user.experience }}/{{ next_rank.experience }}</span>
                             </div>
-                            <button class="btn btn btn-success">Таблица лидеров</button>
+                            <a href="{% url 'leaderboard' %}" class="btn btn btn-success">Таблица лидеров</a>
                         </div>
                         <div class="progress progress-bar-level mb-3">
                             <div class="progress-bar bg-success"

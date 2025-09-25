@@ -19,9 +19,7 @@ class Mission(PolymorphicModel):  # условно абстрактный кла
 
     def do_success(self, user):
         user.missions.add(self)
-        user.journals.create(
-            text=f"Пользователь прошёл миссию {self.name} (+{self.experience} опыта, +{self.mana} маны)"
-        )
+        user.journals.create(text=f"Прошёл миссию {self.name} (+{self.experience} опыта, +{self.mana} маны)")
         user.experience += self.experience
         user.mana += self.mana
 
@@ -100,6 +98,10 @@ class MissionTeaching(Mission):
         return f"Длина html: {len(self.content)}"
 
     mission_type = "Лекторий"
+
+    def verify(self, user):
+        self.do_success(user)
+        return True
 
     class Meta:
         verbose_name, verbose_name_plural = "Миссия Лекторий", "Миссии Лекторий"

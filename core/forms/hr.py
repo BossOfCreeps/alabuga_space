@@ -1,7 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
 from django.db.models import Q
-from django.forms import Form, ModelForm
+from django.forms import ModelForm
 
 from core.models import (
     Competence,
@@ -14,10 +13,6 @@ from core.models import (
     Question,
     Rank,
 )
-
-
-class LoginForm(AuthenticationForm):
-    pass
 
 
 class RankForm(ModelForm):
@@ -89,8 +84,3 @@ class QuestionForm(ModelForm):
     class Meta:
         model = Question
         fields = "__all__"
-
-
-class MissionForceCodeForm(Form):
-    image = forms.ImageField(required=False, label="Загрузить QR код")
-    text = forms.CharField(required=False, label="Текстовый код")

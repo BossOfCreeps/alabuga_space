@@ -18,6 +18,7 @@ from core.views import (
     MissionForceCodeView,
     MissionGraphView,
     MissionListView,
+    MissionRunView,
     MissionsView,
     MissionUpdateView,
     MissionView,
@@ -89,6 +90,7 @@ urlpatterns = hr_urls + [
     #
     path("missions/", MissionsView.as_view(), name="missions"),
     path("missions/<int:pk>/", MissionView.as_view(), name="mission"),
+    path("missions/<int:pk>/run/", MissionRunView.as_view(), name="mission-run"),
     #
     path("ranks/", RanksView.as_view(), name="ranks"),
     #

@@ -4,8 +4,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import FormView
 
-from core.forms import LoginForm
-from users.forms import UserRegisterForm
+from core.forms import LoginForm, RegisterForm
 from utils.forms import show_bootstrap_error_message
 
 
@@ -37,7 +36,7 @@ class LogoutView(View):
 
 class RegisterView(FormView):
     template_name = "game/register.html"
-    form_class = UserRegisterForm
+    form_class = RegisterForm
     success_url = reverse_lazy("index")
 
     def form_valid(self, form):

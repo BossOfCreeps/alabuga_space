@@ -1,0 +1,8 @@
+{% extends "game/base.html" %}
+{% block content %}
+    <form class="container mt-3" method="post">
+        {% csrf_token %}
+        {{ mission.content|safe }}
+        <button type="submit" class="btn btn-primary w-100">Завершить миссию</button>
+    </form>
+{% endblock %}

@@ -1,9 +1,13 @@
+from functools import cached_property
+
 from django.contrib import messages
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import DetailView, FormView, ListView
 
 from core.forms import MissionForceCodeForm
-from core.models import Mission, MissionCode
+from core.models import Mission, MissionCode, MissionQuiz, MissionRecruiting, MissionTeaching
 from utils.qr import decode_qr_from_image
 
 
@@ -19,6 +23,35 @@ class MissionsView(ListView):
 class MissionView(DetailView):
     template_name = "game/mission.html"
     queryset = Mission.objects.prefetch_related("prizes", "competence_level__competence")
+
+
+class MissionRunView(View):
+    def get(self, request, *args, **kwargs):
+        template_name = {
+            MissionCode: "game/mission_code.html",
+            MissionRecruiting: "game/mission_recruiting.html",
+            MissionTeaching: "game/mission_teaching.html",
+            MissionQuiz: "game/mission_quiz.html",
+        }.get(self.mission.get_real_instance_class())
+        return render(request, template_name, {"mission": self.mission})
+
+    def post(self, request, *args, **kwargs):
+        mission_type, data = self.mission.get_real_instance_class(), None
+        if mission_type == MissionCode:
+            return  # TODO
+        elif mission_type == MissionRecruiting:
+            return  # TODO
+        elif mission_type == MissionTeaching:
+            data = {}
+        elif mission_type == MissionQuiz:
+            return  # TODO
+
+        self.mission.verify(self.request.user, **data)
+        return redirect(reverse_lazy("missions"))
+
+    @cached_property
+    def mission(self) -> Mission:
+        return Mission.objects.get(pk=self.kwargs["pk"])
 
 
 class MissionForceCodeView(FormView):

@@ -36,8 +36,10 @@
                                     <i class="fa fa-rocket"></i>
                                     {% if mission in request.user.missions.all %}
                                         <span class="viewed">{{ mission }}</span>
+                                    {% elif mission.rank == request.user.rank %}
+                                        <a href="{% url 'mission' mission.id %}">{{ mission }}</a>
                                     {% else %}
-                                        <a href="#">{{ mission }}</a><!--TODO-->
+                                        <span>{{ mission }}</span>
                                     {% endif %}
                                 </p>
                             {% endfor %}

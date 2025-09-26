@@ -16,11 +16,12 @@ from core.models import (
     Question,
     Rank,
 )
+from users.mixins import HRRequiredMixin
 from utils.forms import parse_competence_levels_map, show_bootstrap_error_message
 
 
-class MissionMixin(FormView):
-    queryset = Mission.objects.all()
+class MissionMixin(HRRequiredMixin, FormView):
+    queryset = Mission.objects.prefetch_related("competence_level__competence", "prizes").all()
     template_name = "hr/mission/form.html"
     success_url = reverse_lazy("mission-list")
 
@@ -98,7 +99,7 @@ class MissionDeleteView(MissionMixin, DeleteView):
     form_class = Form
 
 
-class MissionGraphView(TemplateView):
+class MissionGraphView(HRRequiredMixin, TemplateView):
     template_name = "hr/mission/graph.html"
 
     def get_queryset(self):
@@ -109,8 +110,8 @@ class MissionGraphView(TemplateView):
         return super().get_context_data(**kwargs) | {"object_list": self.get_queryset(), "ranks": Rank.objects.all()}
 
 
-class QuestionMixin(FormView):
-    queryset = Question.objects.all()
+class QuestionMixin(HRRequiredMixin, FormView):
+    queryset = Question.objects.prefetch_related("answers").all()
     form_class = QuestionForm
     template_name = "hr/mission/question_form.html"
     success_url = reverse_lazy("question-list")

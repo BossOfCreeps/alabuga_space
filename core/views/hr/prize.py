@@ -4,10 +4,11 @@ from django.views.generic import CreateView, DeleteView, FormView, ListView, Upd
 
 from core.forms import PrizeForm
 from core.models import Prize
+from users.mixins import HRRequiredMixin
 from utils.forms import show_bootstrap_error_message
 
 
-class PrizeMixin(FormView):
+class PrizeMixin(HRRequiredMixin, FormView):
     queryset = Prize.objects.all()
     form_class = PrizeForm
     template_name = "hr/prize/form.html"

@@ -13,10 +13,11 @@ class HrLoginView(FormView):
     success_url = reverse_lazy("rank-list")
 
     def form_valid(self, form):
-        login(
-            self.request, authenticate(username=form.cleaned_data["username"], password=form.cleaned_data["password"])
-        )
-        return super().form_valid(form)
+        user = authenticate(username=form.cleaned_data["username"], password=form.cleaned_data["password"])
+        if user.is_hr:
+            login(self.request, user)
+            return super().form_valid(form)
+        return super().form_invalid(form)
 
 
 class HrLogoutView(View):

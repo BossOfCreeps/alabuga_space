@@ -4,10 +4,11 @@ from django.views.generic import CreateView, DeleteView, FormView, ListView, Upd
 
 from core.forms import CompetenceForm
 from core.models import Competence
+from users.mixins import HRRequiredMixin
 from utils.forms import show_bootstrap_error_message
 
 
-class CompetenceMixin(FormView):
+class CompetenceMixin(HRRequiredMixin, FormView):
     queryset = Competence.objects.all()
     form_class = CompetenceForm
     template_name = "hr/competence/form.html"

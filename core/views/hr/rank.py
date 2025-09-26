@@ -4,10 +4,11 @@ from django.views.generic import CreateView, DeleteView, FormView, ListView, Upd
 
 from core.forms import RankForm
 from core.models import Competence, Rank
+from users.mixins import HRRequiredMixin
 from utils.forms import parse_competence_levels_map, show_bootstrap_error_message
 
 
-class RankMixin(FormView):
+class RankMixin(HRRequiredMixin, FormView):
     queryset = Rank.objects.prefetch_related("missions", "competence_level__competence").all()
     form_class = RankForm
     template_name = "hr/rank/form.html"

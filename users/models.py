@@ -18,6 +18,7 @@ class User(AbstractUser):
     theme = models.CharField("Тема", max_length=10, default="light")
 
     invite_users = models.PositiveIntegerField("Число приглашённых пользователей", default=0)
+    is_hr = models.BooleanField("HR", default=False)
 
     def check_next_rank(self):
         next_rank = Rank.objects.filter(id=self.rank + 1).first()

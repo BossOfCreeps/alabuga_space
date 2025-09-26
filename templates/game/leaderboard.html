@@ -11,7 +11,7 @@
                             <div class="leader-rank">{{ forloop.counter }}</div>
                             <img src="{{ user|get_avatar }}"
                                  alt="Аватар"
-                                 class="leader-avatar {% if forloop.counter == 1 %}first-place{% endif %} {% if forloop.counter == 2 %}second-place{% endif %}  {% if forloop.counter == 3 %}third-place{% endif %}  ">
+                                 class="leader-avatar {% if forloop.counter == 1 %}gold-border{% endif %}{% if forloop.counter == 2 %}silver-border{% endif %}{% if forloop.counter == 3 %}bronze-border{% endif %}">
                             <div class="leader-info">
                                 <div class="leader-name">{{ user.username }}</div>
                                 <div class="leader-name">{{ user.get_full_name }}</div>

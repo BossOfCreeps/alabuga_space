@@ -91,10 +91,9 @@
                         <div class="achievement-scroll">
                             {% for prize in request.user.prizes.all %}
                                 <div class="achievement-item">
-                                    <img class="achievement-icon"
+                                    <img class="achievement-icon {% if prize.rare == 1 %}bronze-border{% endif %}{% if prize.rare == 2 %}silver-border{% endif %}{% if prize.rare == 3 %}gold-border{% endif %}"
                                          src="{{ prize.image.url }}"
                                          alt="{{ prize.name }}">
-                                    <!--TODO-->
                                     <small>{{ prize }}</small>
                                 </div>
                             {% endfor %}

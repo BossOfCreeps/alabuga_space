@@ -4,7 +4,6 @@ from django.db import models
 class Competence(models.Model):
     name = models.CharField("Название", max_length=1024)
     description = models.TextField("Описание")
-    image = models.ImageField("Изображение")
 
     def __str__(self):
         return self.name

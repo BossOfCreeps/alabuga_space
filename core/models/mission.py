@@ -9,7 +9,7 @@ from core.models.prize import Prize
 class Mission(PolymorphicModel):  # условно абстрактный класс
     name = models.CharField("Название", max_length=1024)
     description = models.TextField("Описание")
-    image = models.ImageField("Изображение")
+    image = models.ImageField("Изображение", blank=True, null=True)
 
     rank = models.IntegerField("Ранг")
     experience = models.PositiveIntegerField("Опыт")

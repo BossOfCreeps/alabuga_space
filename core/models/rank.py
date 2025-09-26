@@ -8,7 +8,7 @@ class Rank(models.Model):
     id = models.PositiveIntegerField("Уровень", primary_key=True)
     name = models.CharField("Название", max_length=1024)
     description = models.TextField("Описание")
-    image = models.ImageField("Изображение")
+    image = models.ImageField("Аватар пользователя")
 
     # условия для получения
     experience = models.PositiveIntegerField("Требуемый опыт")

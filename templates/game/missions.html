@@ -36,34 +36,37 @@
             layout: {
               name: 'dagre',
               rankDir: 'TB',
-              nodeDimensionsIncludeLabels: true
+              nodeDimensionsIncludeLabels: true,
+              padding: 5,
+              spacingFactor: 0.8,
             },
             style: [
                 {
                 selector: 'node',
                 style: {
-                    'shape': 'rectangle',
+                    'shape': 'star',
                     'content': 'data(label)',
                     'grabbable': 'false',
                     'background-color': '#00d1b2',
                     'border-color': '#00f5d4',
                     'border-width': 1,
                     'border-opacity': 0.8,
-                    'width': 'mapData(size, 0, 100, 20, 60)',
-                    'height': 'mapData(size, 0, 100, 20, 60)',
+                    'width': '150',
+                    'height': '150',
                     'color': '#ffffff',
-                    'text-outline-width': 0.5,
+                    'text-outline-width': 1,
                     'text-outline-color': '#000000',
-                    'font-size': '6px',
+                    'font-size': '20px',
                     'text-valign': 'center',
                     'text-halign': 'center',
+                    'text-wrap': 'wrap',
+                    'text-max-width': '150px',
                 }
               },
             {
                 selector: 'node[class = "compiled"]',
                 style: {
                     'background-color': '#283a97',
-                    'border-width': 1,
                     'border-color': '#00aeef',
                 }
             },
@@ -72,14 +75,13 @@
                 style: {
                     'background-color': '#6b7280',
                     'border-color': '#9ca3af',
-                    'border-width': 1,
                     'opacity': 0.6
                 }
             },
               {
                 selector: 'edge',
                 style: {
-                    'width': 2,
+                    'width': 5,
                     'line-color': '#00aeef',
                     'target-arrow-color': '#00aeef',
                     'target-arrow-shape': 'triangle',

@@ -55,7 +55,13 @@ class MissionRunView(View):
             data = {}
 
         elif mission_type == MissionQuiz:
-            return  # TODO
+            data = {
+                "answers_map": {
+                    int(key.replace("question", "").replace("[]", "")): set(map(int, request.POST.getlist(key)))
+                    for key in request.POST
+                    if key.startswith("question")
+                }
+            }
 
         if not self.mission.verify(self.request.user, **data):
             messages.error(self.request, "Миссия не пройдена")

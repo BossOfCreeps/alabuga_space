@@ -563,6 +563,38 @@ a.btn::after {
     font-size: 0.9rem;
 }
 
+.question-card {
+    border-left: 4px solid var(--cosmic-secondary);
+    padding-left: 15px;
+    display: none;
+}
+.question-card.active {
+    display: block;
+}
+.question-image {
+    max-width: 100%;
+    border-radius: 8px;
+    margin: 15px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.option-label {
+    display: block;
+    font-size: 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 15px;
+    transition: background-color 0.2s;
+}
+.form-check-input {
+    width: 30px;
+    height: 30px;
+}
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
 @media (max-width: 576px) {
     .profile-avatar {
         width: 100px;

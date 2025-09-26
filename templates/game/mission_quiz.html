@@ -1,0 +1,135 @@
+{% extends 'game/base.html' %}
+{% load django_bootstrap5 %}
+{% load type_logic %}
+{% block title %}{{ mission.name }}{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="quiz-container">
+            <div class="progress mt-5">
+                <div class="progress-bar"
+                     role="progressbar"
+                     style="width: {{ 1|divide:mission.questions.count|multiple:100 }}%">
+                    Вопрос 1 из {{ mission.questions.count }}
+                </div>
+            </div>
+            <div class="mt-5 mb-5">{% bootstrap_messages %}</div>
+            <form method="POST" id="quizForm">
+                {% csrf_token %}
+                {% for question in mission.questions.all %}
+                    <div class="question-card {% if forloop.counter == 1 %}active{% endif %}"
+                         id="question{{ forloop.counter }}">
+                        <h3>Вопрос {{ forloop.counter }}: {{ question.name }}</h3>
+                        <p>{{ question.description }}</p>
+                        {% if question.file %}
+                            <!--TODO-->
+                            <img src="{{ question.file.url }}"
+                                 alt="{{ question.name }}"
+                                 class="question-image">
+                        {% endif %}
+                        {% for answer in question.answers.all %}
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       name="question{{ question.id }}[]"
+                                       id="q{{ question.id }}a{{ answer.id }}"
+                                       value="{{ answer.id }}">
+                                <label class="form-check-label option-label"
+                                       for="q{{ question.id }}a{{ answer.id }}">{{ answer.text }}</label>
+                            </div>
+                        {% endfor %}
+                        <div class="navigation-buttons">
+                            <button type="button"
+                                    class="btn btn-secondary prev-btn"
+                                    data-prev="{{ forloop.counter|add:-1 }}"
+                                    {% if forloop.counter == 1 %}disabled{% endif %}>Назад</button>
+                            {% if forloop.counter == mission.questions.count %}
+                                <button type="submit" class="btn btn-success">Отправить ответы</button>
+                            {% else %}
+                                <button type="button"
+                                        class="btn btn-primary next-btn"
+                                        data-next="{{ forloop.counter|add:1 }}">Далее</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const nextButtons = document.querySelectorAll('.next-btn');
+            const prevButtons = document.querySelectorAll('.prev-btn');
+            const progressBar = document.querySelector('.progress-bar');
+            const totalQuestions = {{ mission.questions.count }};
+            
+            // Обработчик кнопки "Далее"
+            nextButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const currentQuestionId = this.closest('.question-card').id;
+                    const nextQuestionId = 'question' + this.getAttribute('data-next');
+                    
+                    // Проверяем, выбран ли ответ (для радиокнопок)
+                    const currentQuestion = document.getElementById(currentQuestionId);
+                    const radioButtons = currentQuestion.querySelectorAll('input[type="radio"]');
+                    const checkboxes = currentQuestion.querySelectorAll('input[type="checkbox"]');
+                    
+                    let isAnswered = false;
+                    
+                    // Проверяем радиокнопки
+                    if (radioButtons.length > 0) {
+                        for (let radio of radioButtons) {
+                            if (radio.checked) {
+                                isAnswered = true;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    // Проверяем чекбоксы (если есть)
+                    if (checkboxes.length > 0 && !isAnswered) {
+                        for (let checkbox of checkboxes) {
+                            if (checkbox.checked) {
+                                isAnswered = true;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (!isAnswered) {
+                        alert('Пожалуйста, выберите ответ перед переходом к следующему вопросу.');
+                        return;
+                    }
+                    
+                    // Переходим к следующему вопросу
+                    document.getElementById(currentQuestionId).classList.remove('active');
+                    document.getElementById(nextQuestionId).classList.add('active');
+                    
+                    // Обновляем прогресс-бар
+                    const questionNumber = parseInt(nextQuestionId.replace('question', ''));
+                    const progressPercentage = (questionNumber / totalQuestions) * 100;
+                    progressBar.style.width = progressPercentage + '%';
+                    progressBar.textContent = `Вопрос ${questionNumber} из ${totalQuestions}`;
+                });
+            });
+            
+            // Обработчик кнопки "Назад"
+            prevButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const currentQuestionId = this.closest('.question-card').id;
+                    const prevQuestionId = 'question' + this.getAttribute('data-prev');
+                    
+                    document.getElementById(currentQuestionId).classList.remove('active');
+                    document.getElementById(prevQuestionId).classList.add('active');
+                    
+                    // Обновляем прогресс-бар
+                    const questionNumber = parseInt(prevQuestionId.replace('question', ''));
+                    const progressPercentage = (questionNumber / totalQuestions) * 100;
+                    progressBar.style.width = progressPercentage + '%';
+                    progressBar.textContent = `Вопрос ${questionNumber} из ${totalQuestions}`;
+                });
+            });
+        });
+    </script>
+{% endblock %}

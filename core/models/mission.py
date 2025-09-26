@@ -122,6 +122,15 @@ class MissionQuiz(Mission):
 
     mission_type = "Симулятор"
 
+    def verify(self, user, answers_map: dict[int : list[int]]):
+        right_answers = {
+            q.id: set(q.answers.filter(is_correct=True).values_list("id", flat=True)) for q in self.questions.all()
+        }
+        if right_answers == answers_map:
+            self.do_success(user)
+            return True
+        return False
+
     class Meta:
         verbose_name, verbose_name_plural = "Миссия Симулятор", "Миссии Симулятор"
         ordering = ["id"]

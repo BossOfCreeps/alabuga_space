@@ -10,6 +10,9 @@ echo "Database started"
 # Выполняем миграции
 python manage.py migrate
 
+# Компилируем локали
+python manage.py compilemessages
+
 # Собираем статику
 python manage.py collectstatic --noinput
 

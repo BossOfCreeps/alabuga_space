@@ -1,0 +1,19 @@
+{% extends "game/base.html" %}
+{% load django_bootstrap5 %}
+{% block title %}{{ mission.name }}{% endblock %}
+{% block content %}
+    <form class="container mt-5" method="post">
+        {% csrf_token %}
+        {% bootstrap_messages %}
+        <p>Вам необходимо пригласить пользователей на платформу для прохождения миссии.</p>
+        <p>
+            Сейчас собрано <b>{{ request.user.invite_users }}</b> из {{ mission.invited }}.
+        </p>
+        <p>
+            Для получения отметки необходимо, чтобы при регистрации указали ваш логин <b>{{ request.user.username }}</b> в поле <b>Ник пользователя, пригласившего на платформу</b>
+        </p>
+        {% if request.user.invite_users >= mission.invited %}
+            <button type="submit" class="btn btn-primary w-100 mt-5">Завершить миссию</button>
+        {% endif %}
+    </form>
+{% endblock %}

@@ -83,6 +83,12 @@ class MissionRecruiting(Mission):
 
     mission_type = "Рекрутинг"
 
+    def verify(self, user):
+        if self.invited <= user.invite_users:
+            self.do_success(user)
+            return True
+        return False
+
     def type_data(self) -> str:
         return f"Нужно пригласить: {self.invited}"
 

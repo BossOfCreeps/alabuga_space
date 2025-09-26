@@ -17,6 +17,8 @@ class User(AbstractUser):
     prizes = models.ManyToManyField(Prize, "users", verbose_name="Полученные призы", blank=True)
     theme = models.CharField("Тема", max_length=10, default="light")
 
+    invite_users = models.PositiveIntegerField("Число приглашённых пользователей", default=0)
+
     def check_next_rank(self):
         next_rank = Rank.objects.filter(id=self.rank + 1).first()
         if not next_rank:

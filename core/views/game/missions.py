@@ -49,7 +49,7 @@ class MissionRunView(View):
             data = {"code": decode_qr_from_image(d["image"].read()) if d["image"] is not None else d["text"]}
 
         elif mission_type == MissionRecruiting:
-            return  # TODO
+            data = {}
 
         elif mission_type == MissionTeaching:
             data = {}

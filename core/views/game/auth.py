@@ -1,10 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
+from django.db.models.functions import Lower
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import FormView
 
 from core.forms import LoginForm, RegisterForm
+from users.models import User
 from utils.forms import show_bootstrap_error_message
 
 
@@ -40,6 +42,16 @@ class RegisterView(FormView):
     success_url = reverse_lazy("index")
 
     def form_valid(self, form):
+        if form.cleaned_data["invited_by"]:
+            invitor = (
+                User.objects.annotate(lower_username=Lower("username"))
+                .filter(lower_username=form.cleaned_data["invited_by"].lower().strip())
+                .first()
+            )
+            if invitor:
+                invitor.invite_users += 1
+                invitor.save()
+
         login(self.request, form.save())
         return super().form_valid(form)
 

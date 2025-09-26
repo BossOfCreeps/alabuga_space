@@ -12,11 +12,10 @@
         <div class="row mb-4">
             <div class="col-12">
                 <div class="progress position-relative">
-                    <!--TODO-->
                     <div class="progress-bar bg-primary"
                          role="progressbar"
-                         style="width: {{ request.user.experience|divide:100|multiple:100 }}%"></div>
-                    <span class="position-absolute w-100 text-center">{{ request.user.experience }}/100</span>
+                         style="width: {{ request.user.experience|divide:next_rank.experience|multiple:100 }}%"></div>
+                    <span class="position-absolute w-100 text-center">{{ request.user.experience }}/{{ next_rank.experience }}</span>
                 </div>
             </div>
         </div>

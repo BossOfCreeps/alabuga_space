@@ -12,6 +12,11 @@ class HrLoginView(FormView):
     template_name = "hr/login.html"
     success_url = reverse_lazy("rank-list")
 
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated and request.user.is_hr:
+            return redirect("rank-list")
+        return super().get(request, *args, **kwargs)
+
     def form_valid(self, form):
         user = authenticate(username=form.cleaned_data["username"], password=form.cleaned_data["password"])
         if user.is_hr:

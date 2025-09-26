@@ -20,11 +20,15 @@
                          id="question{{ forloop.counter }}">
                         <h3>Вопрос {{ forloop.counter }}: {{ question.name }}</h3>
                         <p>{{ question.description }}</p>
-                        {% if question.file %}
-                            <!--TODO-->
+                        {% if question.file.url.lower|slice:"-4:" in '.gif,.jpg,.png,webp' %}
                             <img src="{{ question.file.url }}"
                                  alt="{{ question.name }}"
                                  class="question-image">
+                        {% elif question.file.url.lower|slice:"-4:" in '.avi,.mp4,.mov' %}
+                            <video src="{{ question.file.url }}" controls>
+                            </video>
+                        {% elif question.file.url.lower|slice:"-4:" in '.mp3,.wav' %}
+                            <audio src="{{ question.file.url }}" controls></audio>
                         {% endif %}
                         {% for answer in question.answers.all %}
                             <div class="form-check">

@@ -43,10 +43,12 @@
                                     {% endif %}
                                 </p>
                             {% endfor %}
-                            {% for competence_level in rank.competence_level.all %}
+                            {% for cl in rank.competence_level.all %}
                                 <p class="rank-card-experience mb-0">
                                     <i class="fa fa-book"></i>
-                                    <span class="{% if competence_level in request.user.competence_level.all %}viewed{% endif %}">{{ competence_level }}</span><!--TODO-->
+                                    <span class="{% if request.user.competence_level_map|get_item:cl.competence_id >= cl.level %}viewed{% endif %}">
+                                        {{ cl }}
+                                    </span>
                                 </p>
                             {% endfor %}
                         </div>

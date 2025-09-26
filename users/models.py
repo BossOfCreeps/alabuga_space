@@ -20,6 +20,9 @@ class User(AbstractUser):
     invite_users = models.PositiveIntegerField("Число приглашённых пользователей", default=0)
     is_hr = models.BooleanField("HR", default=False)
 
+    def competence_level_map(self):
+        return {o.competence_id: o.level for o in self.competence_level.all()}
+
     def check_next_rank(self):
         next_rank = Rank.objects.filter(id=self.rank + 1).first()
         if not next_rank:

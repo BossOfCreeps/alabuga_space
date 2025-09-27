@@ -6,6 +6,7 @@ from core.models import (
     Competence,
     Mission,
     MissionCode,
+    MissionManual,
     MissionQuiz,
     MissionRecruiting,
     MissionTeaching,
@@ -55,6 +56,13 @@ class MissionForm(ModelForm):
 class MissionCodeForm(MissionForm):
     class Meta:
         model = MissionCode
+        fields = "__all__"
+        widgets = {"competence_level": forms.HiddenInput()}
+
+
+class MissionManualForm(MissionForm):
+    class Meta:
+        model = MissionManual
         fields = "__all__"
         widgets = {"competence_level": forms.HiddenInput()}
 

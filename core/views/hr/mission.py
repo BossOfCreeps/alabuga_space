@@ -3,12 +3,20 @@ from django.forms import Form
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, FormView, ListView, TemplateView, UpdateView
 
-from core.forms import MissionCodeForm, MissionQuizForm, MissionRecruitingForm, MissionTeachingForm, QuestionForm
+from core.forms import (
+    MissionCodeForm,
+    MissionManualForm,
+    MissionQuizForm,
+    MissionRecruitingForm,
+    MissionTeachingForm,
+    QuestionForm,
+)
 from core.models import (
     Answer,
     Competence,
     Mission,
     MissionCode,
+    MissionManual,
     MissionQuiz,
     MissionRecruiting,
     MissionTeaching,
@@ -32,6 +40,7 @@ class MissionMixin(HRRequiredMixin, FormView):
                 MissionRecruiting: MissionRecruitingForm,
                 MissionTeaching: MissionTeachingForm,
                 MissionQuiz: MissionQuizForm,
+                MissionManual: MissionManualForm,
             }.get(self.object.get_real_instance_class())
 
         return {
@@ -39,6 +48,7 @@ class MissionMixin(HRRequiredMixin, FormView):
             "r": MissionRecruitingForm,
             "t": MissionTeachingForm,
             "q": MissionQuizForm,
+            "m": MissionManualForm,
             None: Form,
         }.get(self.request.GET.get("type"))
 
@@ -67,6 +77,7 @@ class MissionMixin(HRRequiredMixin, FormView):
                 "competence_level": parse_competence_levels_map(self.request.POST.dict()),
                 #
                 "questions": self.request.POST.getlist("questions"),
+                "organizers": self.request.POST.getlist("organizers"),
             }
 
         return kwargs

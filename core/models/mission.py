@@ -62,7 +62,7 @@ class MissionTree(models.Model):
 class MissionCode(Mission):
     code = models.CharField("Код", max_length=1024, unique=True)
 
-    mission_type = "Квест"
+    mission_type = "Исследование"
 
     def type_data(self) -> str:
         return f"Код: {self.code}"
@@ -72,6 +72,22 @@ class MissionCode(Mission):
         if v:
             self.do_success(user)
         return v
+
+    class Meta:
+        verbose_name, verbose_name_plural = "Миссия Исследование", "Миссии Исследование"
+        ordering = ["id"]
+
+
+class MissionManual(Mission):
+    organizers = models.ManyToManyField("users.User", "missions_as_org", verbose_name="Организаторы")
+
+    mission_type = "Квест"
+
+    def type_data(self) -> str:
+        return "Организаторы: " + "; ".join([o.username for o in self.organizers.all()])
+
+    def verify(self, user, code: str):
+        raise NotImplementedError
 
     class Meta:
         verbose_name, verbose_name_plural = "Миссия Квест", "Миссии Квест"

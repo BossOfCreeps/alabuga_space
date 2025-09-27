@@ -5,6 +5,7 @@ from core.models import (
     Competence,
     CompetenceLevel,
     MissionCode,
+    MissionManual,
     MissionQuiz,
     MissionRecruiting,
     MissionTeaching,
@@ -22,6 +23,11 @@ class MissionTreeInline(admin.TabularInline):
 
 @admin.register(MissionCode)
 class MissionCodeAdmin(admin.ModelAdmin):
+    inlines = [MissionTreeInline]
+
+
+@admin.register(MissionManual)
+class MissionManualAdmin(admin.ModelAdmin):
     inlines = [MissionTreeInline]
 
 

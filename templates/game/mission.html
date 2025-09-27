@@ -76,10 +76,8 @@
                         </div>
                         <h5>Компетенции</h5>
                         <div class="competences-list">
-                            {% for competence in object.competence_level.all %}
-                                <div class="competence-level">{{ competence.competence.name }} +{{ competence.level }}</div>
-                            {% empty %}
-                                <h2 class="fw-bold">-</h2>
+                            {% for cl in object.competence_level.all %}
+                                {% if cl.level > 0 %}<div class="competence-level">{{ cl.competence.name }} +{{ cl.level }}</div>{% endif %}
                             {% endfor %}
                         </div>
                     </div>

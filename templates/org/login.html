@@ -1,0 +1,41 @@
+{% load django_bootstrap5 %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            {% block title %}Авторизация{% endblock %}
+        </title>
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+        <script src="https://unpkg.com/htmx.org@1.8.0"></script>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+        <script src="https://js.cytoscape.org/js/cytoscape.min.js"></script>
+        <script src="https://cdn.rawgit.com/cpettitt/dagre/v0.7.4/dist/dagre.min.js"></script>
+        <script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-dagre/1.5.0/cytoscape-dagre.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+        <link href="https://cdn.datatables.net/v/bs5/dt-2.3.4/cc-1.1.0/datatables.min.css"
+              rel="stylesheet"
+              integrity="sha384-ojikUlXfWRYzaZybwJHTLq41O6Vle8JgaoaYPaWFhUE/kzMfs+GPY9alI6+HaF6S"
+              crossorigin="anonymous">
+        <script src="https://cdn.datatables.net/v/bs5/dt-2.3.4/cc-1.1.0/datatables.min.js"
+                integrity="sha384-TvniY7Bsq1NdUY7AI5UWDlQ6Ka+bGd4B423kL8lP3KiDpOF5oZzlx2WsHxgn/dZP"
+                crossorigin="anonymous"></script>
+        <link href="{% static "styles/hr.css" %}" rel="stylesheet">
+        <script src="{% static 'scripts/scripts.js' %}"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row justify-content-center">
+                <form class="col-lg-6 p-4" method="post">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    <button type="submit" class="btn btn-primary mt-3 w-100">Войти</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

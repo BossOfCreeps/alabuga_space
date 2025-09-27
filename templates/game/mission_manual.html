@@ -1,0 +1,10 @@
+{% extends "game/base.html" %}
+{% load django_bootstrap5 %}
+{% block title %}{{ mission.name }}{% endblock %}
+{% block content %}
+    <div class="container mt-5 text-center">
+        <p>Вам необходимо подойти к организатору ({{ mission.organizers.all|join:", " }}).</p>
+        <p>Выполнить их задание.</p>
+        <p>И они отметят миссию пройденной.</p>
+    </div>
+{% endblock %}

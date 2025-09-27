@@ -23,6 +23,11 @@ from core.views import (
     MissionView,
     NotificationCheckView,
     NotificationListView,
+    OrgLoginView,
+    OrgLogoutView,
+    OrgMissionCheckView,
+    OrgMissionsView,
+    OrgMissionView,
     PrizeCreateView,
     PrizeDeleteView,
     PrizeListView,
@@ -80,22 +85,34 @@ hr_urls = [
     path("hr/notifications/<int:pk>/check/", NotificationCheckView.as_view(), name="notifications-check"),
 ]
 
-urlpatterns = hr_urls + [
-    path("", IndexView.as_view(), name="index"),
-    #
-    path("login/", LoginView.as_view(), name="login"),
-    path("logout/", LogoutView.as_view(), name="logout"),
-    path("register/", RegisterView.as_view(), name="register"),
-    #
-    path("missions/", MissionsView.as_view(), name="missions"),
-    path("missions/<int:pk>/", MissionView.as_view(), name="mission"),
-    path("missions/<int:pk>/run/", MissionRunView.as_view(), name="mission-run"),
-    #
-    path("ranks/", RanksView.as_view(), name="ranks"),
-    #
-    path("profile/", ProfileView.as_view(), name="profile"),
-    path("profile/leaderboard/", LeaderboardView.as_view(), name="leaderboard"),
-    path("profile/journal/", JournalView.as_view(), name="journal"),
-    path("profile/shop/", ShopView.as_view(), name="shop"),
-    path("profile/shop/<int:pk>/buy/", ShopBuyView.as_view(), name="shop-buy"),
+organizer_urls = [
+    path("org/", OrgLoginView.as_view(), name="org-login"),
+    path("org/logout/", OrgLogoutView.as_view(), name="org-logout"),
+    path("org/missions/", OrgMissionsView.as_view(), name="org-missions"),
+    path("org/missions/<int:pk>/", OrgMissionView.as_view(), name="org-mission"),
+    path("org/missions/<int:pk>/check/", OrgMissionCheckView.as_view(), name="org-mission-check"),
 ]
+
+urlpatterns = (
+    hr_urls
+    + organizer_urls
+    + [
+        path("", IndexView.as_view(), name="index"),
+        #
+        path("login/", LoginView.as_view(), name="login"),
+        path("logout/", LogoutView.as_view(), name="logout"),
+        path("register/", RegisterView.as_view(), name="register"),
+        #
+        path("missions/", MissionsView.as_view(), name="missions"),
+        path("missions/<int:pk>/", MissionView.as_view(), name="mission"),
+        path("missions/<int:pk>/run/", MissionRunView.as_view(), name="mission-run"),
+        #
+        path("ranks/", RanksView.as_view(), name="ranks"),
+        #
+        path("profile/", ProfileView.as_view(), name="profile"),
+        path("profile/leaderboard/", LeaderboardView.as_view(), name="leaderboard"),
+        path("profile/journal/", JournalView.as_view(), name="journal"),
+        path("profile/shop/", ShopView.as_view(), name="shop"),
+        path("profile/shop/<int:pk>/buy/", ShopBuyView.as_view(), name="shop-buy"),
+    ]
+)

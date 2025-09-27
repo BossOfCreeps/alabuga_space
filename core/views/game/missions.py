@@ -7,7 +7,7 @@ from django.views import View
 from django.views.generic import DetailView, ListView
 
 from core.forms import MissionForceCodeForm
-from core.models import Mission, MissionCode, MissionQuiz, MissionRecruiting, MissionTeaching
+from core.models import Mission, MissionCode, MissionManual, MissionQuiz, MissionRecruiting, MissionTeaching
 from utils.qr import decode_qr_from_image
 
 
@@ -32,6 +32,7 @@ class MissionRunView(View):
             MissionRecruiting: ("game/mission_recruiting.html", {}),
             MissionTeaching: ("game/mission_teaching.html", {}),
             MissionQuiz: ("game/mission_quiz.html", {}),
+            MissionManual: ("game/mission_manual.html", {}),
         }.get(self.mission.get_real_instance_class())
         return render(request, template_name, {"mission": self.mission} | extra_context)
 

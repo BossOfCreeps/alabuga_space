@@ -1,0 +1,60 @@
+{% load model_info %}
+{% load django_bootstrap5 %}
+{% load static %}
+{% get_user_theme as user_theme %}
+<!DOCTYPE html>
+<html lang="ru" data-bs-theme="{{ user_theme }}">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            {% block title %}{% endblock %}
+        </title>
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+        <script src="https://unpkg.com/htmx.org@1.8.0"></script>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+        <script src="https://js.cytoscape.org/js/cytoscape.min.js"></script>
+        <script src="https://cdn.rawgit.com/cpettitt/dagre/v0.7.4/dist/dagre.min.js"></script>
+        <script src="https://cdn.rawgit.com/cytoscape/cytoscape.js-dagre/1.5.0/cytoscape-dagre.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+        <link href="https://cdn.datatables.net/v/bs5/dt-2.3.4/cc-1.1.0/r-3.0.6/datatables.min.css"
+              rel="stylesheet"
+              integrity="sha384-J9sByJqc7aFtpa/p3+RvVXdwDcmYzOe4xoAvHPrnbK0IU/LEyeVf3FvlpuCKk0Xf"
+              crossorigin="anonymous">
+        <script src="https://cdn.datatables.net/v/bs5/dt-2.3.4/cc-1.1.0/r-3.0.6/datatables.min.js"
+                integrity="sha384-Q8EUWi3cPzrh/7cmW/l0GdIB2qJ25Wa0rLHPfuQpKZt88OBP2xV5f2ejnXdNyKLJ"
+                crossorigin="anonymous"></script>
+        <link href="{% static "styles/hr.css" %}" rel="stylesheet">
+        <script src="{% static 'scripts/scripts.js' %}"></script>
+    </head>
+    <body>
+        {% if not request.htmx or request.htmx.boosted %}
+            <nav class="navbar navbar-expand-lg mb-5">
+                <div class="container">
+                    <a class="navbar-brand" href="{% url 'org-missions' %}">
+                        <img src="{% if user_theme == "light" %}{% static "image/navbar_logo_light.png" %}{% else %}{% static "image/navbar_logo_dank.png" %}{% endif %} "
+                             alt="Логотип">
+                    </a>
+                    <button class="navbar-toggler"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#navbarContent">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        </ul>
+                        <div class="d-flex">
+                            <a href="{% url 'hr-change_theme' %}" class="btn me-2"><i class="fa fa-{% if user_theme == "light" %}moon{% else %}sun{% endif %}"></i></a>
+                            <a href="{% url 'org-logout' %}" class="btn btn-danger">Выйти</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </body>
+    {% block scripts %}{% endblock %}
+</html>

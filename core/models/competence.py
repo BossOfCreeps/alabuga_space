@@ -21,3 +21,4 @@ class CompetenceLevel(models.Model):
 
     class Meta:
         verbose_name, verbose_name_plural = "Уровень компетенции", "Уровни компетенций"
+        ordering = ["id"]

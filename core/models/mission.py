@@ -47,7 +47,7 @@ class Mission(PolymorphicModel):  # условно абстрактный кла
         raise NotImplementedError
 
     def __str__(self):
-        return self.name
+        return f"[{self.rank}] {self.name}"
 
     class Meta:
         verbose_name, verbose_name_plural = "Миссия", "Миссии"

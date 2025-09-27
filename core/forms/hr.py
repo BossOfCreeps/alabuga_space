@@ -14,6 +14,7 @@ from core.models import (
     Question,
     Rank,
 )
+from users.models import User
 
 
 class RankForm(ModelForm):
@@ -61,6 +62,8 @@ class MissionCodeForm(MissionForm):
 
 
 class MissionManualForm(MissionForm):
+    organizers = forms.ModelMultipleChoiceField(User.objects.filter(is_organizer=True), label="Организаторы")
+
     class Meta:
         model = MissionManual
         fields = "__all__"

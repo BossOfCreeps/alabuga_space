@@ -661,4 +661,7 @@ a.btn::after {
         display: inline-block;
         margin-bottom: 15px;
     }
+    .activity-item div strong {
+        width: 450px;
+    }
 }

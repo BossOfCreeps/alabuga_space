@@ -54,7 +54,7 @@
                             <a href="{% url 'journal' %}" class="btn btn-primary">Все действия</a>
                         </div>
                         <div>
-                            {% for journal in request.user.journals.all|slice:"0:3" %}
+                            {% for journal in request.user.journals.all|slice:"0:9" %}
                                 <div class="activity-item">
                                     <div class="d-flex justify-content-between">
                                         <strong>{{ journal.text|linebreaks }}</strong>
@@ -72,7 +72,7 @@
                         <h5 class="card-title">Компетенции</h5>
                         <div class="competence-item">
                             {% for competence_level in request.user.competence_level.all %}
-                                <div class="d-flex justify-content-between mb-1">
+                                <div class="d-flex justify-content-between mb-3">
                                     <span>{{ competence_level.competence.name }}</span>
                                     <span>{{ competence_level.level }}</span>
                                 </div>
@@ -85,7 +85,7 @@
                         <div class="section-header">
                             <div>
                                 <h5 class="card-title">Артефакты</h5>
-                                <span>Мана: {{ request.user.mana }}</span>
+                                <span>Мана: <i class="fa fa-flask"></i>{{ request.user.mana }}</span>
                             </div>
                             <a href="{% url 'shop' %}" class="btn btn-secondary">Магазин</a>
                         </div>

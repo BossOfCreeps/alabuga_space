@@ -6,7 +6,7 @@ from users.models import User
 
 
 def forwards_func(apps, schema_editor):  # noqa
-    user = User.objects.create_superuser("hr", "hr@alabuga.ru", "password")
+    user = User.objects.create_superuser("hr", "hr@alabuga.ru", "iR98ixXr")
     user.is_hr = True
     user.save()
 

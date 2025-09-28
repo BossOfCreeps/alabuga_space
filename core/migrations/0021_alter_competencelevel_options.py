@@ -7,7 +7,7 @@ from users.models import User
 
 def forwards_func(apps, schema_editor):  # noqa
     for name in ["org1", "org2", "org3", "org4"]:
-        user = User.objects.create_superuser(name, f"{name}@alabuga.ru", "password")
+        user = User.objects.create_user(name, f"{name}@alabuga.ru", "iR98ixXr")
         user.is_organizer = True
         user.save()
 

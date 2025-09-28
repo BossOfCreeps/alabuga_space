@@ -5,22 +5,140 @@
     <div class="container">
         <div>
             <h3 class="card-title mt-4 mb-4">Таблица лидеров</h3>
+            <ul class="nav nav-tabs" id="leaderTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active"
+                            id="all-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#all"
+                            type="button"
+                            role="tab"
+                            aria-controls="all"
+                            aria-selected="true">Все</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link"
+                            id="week-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#week"
+                            type="button"
+                            role="tab"
+                            aria-controls="week"
+                            aria-selected="false">За неделю</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link"
+                            id="month-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#month"
+                            type="button"
+                            role="tab"
+                            aria-controls="month"
+                            aria-selected="false">За месяц</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link"
+                            id="year-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#year"
+                            type="button"
+                            role="tab"
+                            aria-controls="year"
+                            aria-selected="false">За год</button>
+                </li>
+            </ul>
             <div class="card-body">
-                <div class="leaders-list">
-                    {% for user in object_list %}
-                        <div class="leader-item {% if user == request.user %}me{% endif %} ">
-                            <div class="leader-rank">{{ forloop.counter }}</div>
-                            <img src="{{ user|get_avatar }}"
-                                 alt="Аватар"
-                                 class="leader-avatar {% if forloop.counter == 1 %}gold-border{% endif %}{% if forloop.counter == 2 %}silver-border{% endif %}{% if forloop.counter == 3 %}bronze-border{% endif %}">
-                            <div class="leader-info">
-                                <div class="leader-name">{{ user.username }}</div>
-                                <div class="leader-name">{{ user.get_full_name }}</div>
-                                <div class="leader-level">Ранг {{ user.rank }}</div>
-                            </div>
-                            <div class="leader-exp">{{ user.experience }} XP</div>
+                <div class="tab-content" id="leaderTabsContent">
+                    <div class="tab-pane fade show active"
+                         id="all"
+                         role="tabpanel"
+                         aria-labelledby="all-tab">
+                        <div class="leaders-list">
+                            {% for user in object_list %}
+                                <div class="leader-item {% if user == request.user %}me{% endif %}">
+                                    <div class="leader-rank">{{ forloop.counter }}</div>
+                                    <img src="{{ user|get_avatar }}"
+                                         alt="Аватар"
+                                         class="leader-avatar {% if forloop.counter == 1 %}gold-border{% endif %}{% if forloop.counter == 2 %}silver-border{% endif %}{% if forloop.counter == 3 %}bronze-border{% endif %}">
+                                    <div class="leader-info">
+                                        <div class="leader-name">{{ user.username }}</div>
+                                        <div class="leader-name">{{ user.get_full_name }}</div>
+                                        <div class="leader-level">Ранг {{ user.rank }}</div>
+                                    </div>
+                                    <div class="leader-exp">{{ user.experience }} XP</div>
+                                </div>
+                            {% endfor %}
                         </div>
-                    {% endfor %}
+                    </div>
+                    <div class="tab-pane fade"
+                         id="week"
+                         role="tabpanel"
+                         aria-labelledby="week-tab">
+                        <div class="leaders-list">
+                            {% for user in weekly_leaders %}
+                                <div class="leader-item {% if user == request.user %}me{% endif %}">
+                                    <div class="leader-rank">{{ forloop.counter }}</div>
+                                    <img src="{{ user|get_avatar }}"
+                                         alt="Аватар"
+                                         class="leader-avatar {% if forloop.counter == 1 %}gold-border{% endif %}{% if forloop.counter == 2 %}silver-border{% endif %}{% if forloop.counter == 3 %}bronze-border{% endif %}">
+                                    <div class="leader-info">
+                                        <div class="leader-name">{{ user.username }}</div>
+                                        <div class="leader-name">{{ user.get_full_name }}</div>
+                                        <div class="leader-level">Ранг {{ user.rank }}</div>
+                                    </div>
+                                    <div class="leader-exp">{{ user.experience }} XP</div>
+                                </div>
+                            {% empty %}
+                                <div class="text-center py-4">Нет данных за неделю</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="tab-pane fade"
+                         id="month"
+                         role="tabpanel"
+                         aria-labelledby="month-tab">
+                        <div class="leaders-list">
+                            {% for user in monthly_leaders %}
+                                <div class="leader-item {% if user == request.user %}me{% endif %}">
+                                    <div class="leader-rank">{{ forloop.counter }}</div>
+                                    <img src="{{ user|get_avatar }}"
+                                         alt="Аватар"
+                                         class="leader-avatar {% if forloop.counter == 1 %}gold-border{% endif %}{% if forloop.counter == 2 %}silver-border{% endif %}{% if forloop.counter == 3 %}bronze-border{% endif %}">
+                                    <div class="leader-info">
+                                        <div class="leader-name">{{ user.username }}</div>
+                                        <div class="leader-name">{{ user.get_full_name }}</div>
+                                        <div class="leader-level">Ранг {{ user.rank }}</div>
+                                    </div>
+                                    <div class="leader-exp">{{ user.experience }} XP</div>
+                                </div>
+                            {% empty %}
+                                <div class="text-center py-4">Нет данных за месяц</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="tab-pane fade"
+                         id="year"
+                         role="tabpanel"
+                         aria-labelledby="year-tab">
+                        <div class="leaders-list">
+                            {% for user in yearly_leaders %}
+                                <div class="leader-item {% if user == request.user %}me{% endif %}">
+                                    <div class="leader-rank">{{ forloop.counter }}</div>
+                                    <img src="{{ user|get_avatar }}"
+                                         alt="Аватар"
+                                         class="leader-avatar {% if forloop.counter == 1 %}gold-border{% endif %}{% if forloop.counter == 2 %}silver-border{% endif %}{% if forloop.counter == 3 %}bronze-border{% endif %}">
+                                    <div class="leader-info">
+                                        <div class="leader-name">{{ user.username }}</div>
+                                        <div class="leader-name">{{ user.get_full_name }}</div>
+                                        <div class="leader-level">Ранг {{ user.rank }}</div>
+                                    </div>
+                                    <div class="leader-exp">{{ user.experience }} XP</div>
+                                </div>
+                            {% empty %}
+                                <div class="text-center py-4">Нет данных за год</div>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

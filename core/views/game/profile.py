@@ -1,4 +1,5 @@
 from django.shortcuts import redirect
+from django.utils import timezone
 from django.views import View
 from django.views.generic import ListView, TemplateView
 
@@ -22,7 +23,11 @@ class LeaderboardView(ListView):
     queryset = User.objects.order_by("-experience")
 
     def get_context_data(self, **kwargs):
-        return super().get_context_data(**kwargs) | {"ranks": Rank.objects.all()}
+        return super().get_context_data(**kwargs) | {
+            "weekly_leaders": self.queryset.filter(date_joined__gte=timezone.now().date() - timezone.timedelta(7)),
+            "monthly_leaders": self.queryset.filter(date_joined__gte=timezone.now().date() - timezone.timedelta(30)),
+            "yearly_leaders": self.queryset.filter(date_joined__gte=timezone.now().date() - timezone.timedelta(365)),
+        }
 
 
 class JournalView(ListView):

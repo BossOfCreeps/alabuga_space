@@ -14,7 +14,7 @@
                 <div class="col-sm-3">
                     <div class="card">
                         <img src="{{ prize.image.url }}"
-                             class="card-img-top"
+                             class="card-img-top {% if prize.rare == 1 %}bronze-border{% endif %}{% if prize.rare == 2 %}silver-border{% endif %}{% if prize.rare == 3 %}gold-border{% endif %}"
                              alt="{{ prize.name }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ prize.name }}</h5>

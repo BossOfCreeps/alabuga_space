@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.functional import cached_property
 
 from core.models import CompetenceLevel, Mission, Prize, Rank
 
@@ -22,6 +23,7 @@ class User(AbstractUser):
     is_hr = models.BooleanField("HR", default=False)
     is_organizer = models.BooleanField("Организатор", default=False)
 
+    @cached_property
     def competence_level_map(self):
         return {o.competence_id: o.level for o in self.competence_level.all()}
 

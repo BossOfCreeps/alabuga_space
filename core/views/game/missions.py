@@ -7,7 +7,7 @@ from django.views import View
 from django.views.generic import DetailView, ListView
 
 from core.forms import MissionForceCodeForm
-from core.models import Mission, MissionCode, MissionManual, MissionQuiz, MissionRecruiting, MissionTeaching
+from core.models import Mission, MissionCode, MissionManual, MissionQuiz, MissionRecruiting, MissionTeaching, Rank
 from utils.qr import decode_qr_from_image
 
 
@@ -18,6 +18,9 @@ class MissionsView(ListView):
         return Mission.objects.prefetch_related("prizes", "competence_level__competence").filter(
             rank=self.request.user.rank
         )
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs) | {"rank": Rank.objects.get(id=self.request.user.rank)}
 
 
 class MissionView(DetailView):

@@ -23,7 +23,15 @@
             elements: {
               nodes: [
                   {% for m in object_list %}
-                      { data: { id: '{{ m.id }}', label: '{{ m.name }}', class: '{{ m|get_mission_type:request.user }}' }, grabbable: false },
+                      { 
+                          data: { 
+                              id: '{{ m.id }}', 
+                              label: '{{ m.name }}', 
+                              class: '{{ m|get_mission_type:request.user }}', 
+                              required: {% if m in rank.missions.all %}1{% else %}0{% endif %} ,
+                          }, 
+                          grabbable: false,
+                      },
                   {% endfor %}
               ],
               edges: [
@@ -49,8 +57,6 @@
                     'content': 'data(label)',
                     'grabbable': 'false',
                     'background-color': '#00d1b2',
-                    'border-color': '#00f5d4',
-                    'border-width': 1,
                     'border-opacity': 0.8,
                     'width': '150',
                     'height': '150',
@@ -68,15 +74,27 @@
                 selector: 'node[class = "compiled"]',
                 style: {
                     'background-color': '#283a97',
-                    'border-color': '#00aeef',
                 }
             },
             {
                 selector: 'node[class = "locked"]',
                 style: {
                     'background-color': '#6b7280',
-                    'border-color': '#9ca3af',
                     'opacity': 0.6
+                }
+            },
+            {
+                selector: 'node[required = 1]',
+                style: {
+                    'border-color': 'gold',
+                    'border-width': 3,
+                }
+            },
+            {
+                selector: 'node[required = 0]',
+                style: {
+                    'border-color': '#00aeef',
+                    'border-width': 1,
                 }
             },
               {

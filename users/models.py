@@ -30,15 +30,17 @@ class User(AbstractUser):
         if not next_rank:
             return
 
+        cur_rank = Rank.objects.get(id=self.rank)
+
         user_cl_map, has_competence_level = {o.competence_id: o.level for o in self.competence_level.all()}, True
-        for next_rank_cl in next_rank.competence_level.all():
+        for next_rank_cl in cur_rank.competence_level.all():
             if user_cl_map.get(next_rank_cl.competence_id, 0) < next_rank_cl.level:
                 has_competence_level = False
                 break
 
         if (
             self.experience >= next_rank.experience
-            and (set(next_rank.missions.values_list("pk")).issubset(set(self.missions.values_list("pk"))))
+            and (set(cur_rank.missions.values_list("pk")).issubset(set(self.missions.values_list("pk"))))
             and has_competence_level
         ):
             self.rank = next_rank.id

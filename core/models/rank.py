@@ -12,7 +12,7 @@ class Rank(models.Model):
 
     # условия для получения
     experience = models.PositiveIntegerField("Требуемый опыт")
-    missions = models.ManyToManyField(Mission, "ranks_where_required", verbose_name="Требуемые миссии", blank=True)
+    missions = models.ManyToManyField(Mission, "ranks_where_required", verbose_name="Обязательные миссии", blank=True)
     competence_level = models.ManyToManyField(
         CompetenceLevel, "ranks", verbose_name="Требуемые уровни компетенций", blank=True
     )

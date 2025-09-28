@@ -38,13 +38,14 @@ class PrizeForm(ModelForm):
 
 
 class MissionForm(ModelForm):
+    parents = forms.ModelMultipleChoiceField(Mission.objects.all(), label="Родительские миссии", required=False)
     childrens = forms.ModelMultipleChoiceField(Mission.objects.all(), label="Дочерние миссии", required=False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         if hasattr(self, "instance") and self.instance and self.instance.pk:
-            self.fields["childrens"].queryset = Mission.objects.filter(
+            self.fields["childrens"].queryset = self.fields["parents"].queryset = Mission.objects.filter(
                 Q(rank=self.instance.rank), ~Q(id=self.instance.id)
             )
 

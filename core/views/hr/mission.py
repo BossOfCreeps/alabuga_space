@@ -58,13 +58,22 @@ class MissionMixin(HRRequiredMixin, FormView):
             initial["childrens"] = Mission.objects.filter(
                 id__in=MissionTree.objects.filter(parent=self.object).values_list("child", flat=True)
             )
+            initial["parents"] = Mission.objects.filter(
+                id__in=MissionTree.objects.filter(child=self.object).values_list("parent", flat=True)
+            )
         return initial
 
     def form_valid(self, form):
         self.object = form.save()
+
         MissionTree.objects.filter(parent=self.object).delete()
         for child in self.request.POST.getlist("childrens"):
             MissionTree.objects.create(parent=self.object, child_id=child)
+
+        MissionTree.objects.filter(child=self.object).delete()
+        for parent in self.request.POST.getlist("parents"):
+            MissionTree.objects.create(child=self.object, parent_id=parent)
+
         return super().form_valid(form)
 
     def get_form_kwargs(self):
@@ -73,6 +82,7 @@ class MissionMixin(HRRequiredMixin, FormView):
         if self.request.method in ("POST", "PUT"):
             kwargs["data"] = self.request.POST.dict() | {
                 "prizes": self.request.POST.getlist("prizes"),
+                "parents": self.request.POST.getlist("parents"),
                 "childrens": self.request.POST.getlist("childrens"),
                 "competence_level": parse_competence_levels_map(self.request.POST.dict()),
                 #

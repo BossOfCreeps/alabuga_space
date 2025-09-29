@@ -58,8 +58,8 @@
 * Запустить командой `docker-compose up -d`
 * Подождать немного после запуска, пока сервис окончательно запуститься
 * Перейти по адресу http://localhost/
-  * http://localhost/hr/ для hr
-  * http://localhost/org/ для организатора
+  * http://localhost/hr/ для hr (тестовый пользователь - hr пароль:iR98ixXr)
+  * http://localhost/org/ для организатора (тестовый пользователи - org1, org2, org3, org4 пароль:iR98ixXr)
 
 ## Ссылки
 

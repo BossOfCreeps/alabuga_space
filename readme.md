@@ -63,7 +63,7 @@
 
 ## Ссылки
 
-Демо - http://alabuga-space.ddns.net (если не работает, напишите в тг @BossOfCreeps)
+Демо - http://alabuga-space.ddns.net (если не работает, напишите в тг @BossOfCreeps)  
 Репозиторий - https://github.com/BossOfCreeps/alabuga_space
 
 # Задача

@@ -2,14 +2,6 @@
 
 from django.db import migrations
 
-from users.models import User
-
-
-def forwards_func(apps, schema_editor):  # noqa
-    user = User.objects.create_superuser("hr", "hr@alabuga.ru", "iR98ixXr")
-    user.is_hr = True
-    user.save()
-
 
 class Migration(migrations.Migration):
 
@@ -17,6 +9,4 @@ class Migration(migrations.Migration):
         ("users", "0012_user_is_hr"),
     ]
 
-    operations = [
-        migrations.RunPython(code=forwards_func, reverse_code=migrations.RunPython.noop),
-    ]
+    operations = []

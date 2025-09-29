@@ -3,7 +3,15 @@ version: '3.8'
 services:
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    command: >
+      bash -c "
+      echo 'Waiting for database...' &&
+      while ! nc -z db 5432; do sleep 0.1; done &&
+      echo 'Database started' &&
+      python manage.py migrate &&
+      python manage.py compilemessages &&
+      python manage.py runserver 0.0.0.0:8000
+      "
     volumes:
       - .:/app
       - static_volume:/app/static

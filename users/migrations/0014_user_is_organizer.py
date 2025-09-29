@@ -2,6 +2,19 @@
 
 from django.db import migrations, models
 
+from users.models import User
+
+
+def forwards_func(apps, schema_editor):  # noqa
+    user = User.objects.create_superuser("hr", "hr@alabuga.ru", "iR98ixXr")
+    user.is_hr = True
+    user.save()
+
+    for name in ["org1", "org2", "org3", "org4"]:
+        user = User.objects.create_user(name, f"{name}@alabuga.ru", "iR98ixXr")
+        user.is_organizer = True
+        user.save()
+
 
 class Migration(migrations.Migration):
 
@@ -15,4 +28,5 @@ class Migration(migrations.Migration):
             name="is_organizer",
             field=models.BooleanField(default=False, verbose_name="Организатор"),
         ),
+        migrations.RunPython(code=forwards_func, reverse_code=migrations.RunPython.noop),
     ]

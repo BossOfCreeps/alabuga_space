@@ -8,6 +8,7 @@ from django.views.generic import DetailView, ListView
 
 from core.forms import MissionForceCodeForm
 from core.models import Mission, MissionCode, MissionManual, MissionQuiz, MissionRecruiting, MissionTeaching, Rank
+from users.mixins import MissionRankMixin
 from utils.qr import decode_qr_from_image
 
 
@@ -23,12 +24,12 @@ class MissionsView(ListView):
         return super().get_context_data(**kwargs) | {"rank": Rank.objects.get(id=self.request.user.rank)}
 
 
-class MissionView(DetailView):
+class MissionView(MissionRankMixin, DetailView):
     template_name = "game/mission.html"
     queryset = Mission.objects.prefetch_related("prizes", "competence_level__competence")
 
 
-class MissionRunView(View):
+class MissionRunView(MissionRankMixin, View):
     def get(self, request, *args, **kwargs):
         template_name, extra_context = {
             MissionCode: ("game/mission_code.html", {"form": MissionForceCodeForm}),

@@ -25,9 +25,9 @@ class Mission(PolymorphicModel):  # условно абстрактный кла
 
         for prize in self.prizes.all():
             user.prizes.add(prize)
+            user.journals.create(text=f"Получен артефакт {self.name}")
             if prize.need_hr_notif:
                 user.notifications.create(text=f"Пользователь получил артефакт {prize.name}")
-                user.journals.create(text=f"Получен артефакт {self.name}")
 
         user_cl_map = {o.competence_id: o.level for o in user.competence_level.all()}
         for cl in self.competence_level.all():

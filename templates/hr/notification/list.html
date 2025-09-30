@@ -20,7 +20,13 @@
                         <td>{{ notif.user }}</td>
                         <td>{{ notif.text }}</td>
                         <td>{{ notif.created_at|localtime }}</td>
-                        <td>{{ notif.is_read|yesno:"Да,Нет" }}</td>
+                        <td>
+                            {% if notif.is_read %}
+                                Да
+                            {% else %}
+                                Нет
+                            {% endif %}
+                        </td>
                         <td>
                             {% if not notif.is_read %}
                                 <a href="{% url 'notifications-check' notif.id %}"

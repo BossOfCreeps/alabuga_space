@@ -34,8 +34,10 @@
                         </td>
                         <td>
                             {% for competence_level in rank.competence_level.all %}
-                                <span>{{ competence_level }}</span>
-                                <br>
+                                {% if competence_level.level > 0 %}
+                                    <span>{{ competence_level }}</span>
+                                    <br>
+                                {% endif %}
                             {% endfor %}
                         </td>
                         <td>

@@ -4,7 +4,7 @@ from django.views import View
 from django.views.generic import ListView, TemplateView
 
 from core.models import Prize, Rank
-from users.models import Journal, User
+from users.models import Journal, Notification, User
 
 
 class ProfileView(TemplateView):
@@ -51,5 +51,6 @@ class ShopBuyView(View):
             request.user.prizes.add(prize)
             request.user.save()
             Journal.objects.create(user=request.user, text=f"Куплен артефакт {prize.name}")
+            Notification.objects.create(user=request.user, text=f"Пользователь купил артефакт {prize.name}")
 
         return redirect("profile")

@@ -31,7 +31,13 @@
                                 Не продаётся
                             {% endif %}
                         </td>
-                        <td>{{ rize.need_hr_notif|yesno:"Да,Нет" }}</td>
+                        <td>
+                            {% if rize.need_hr_notif %}
+                                Да
+                            {% else %}
+                                Нет
+                            {% endif %}
+                        </td>
                         <td>
                             <a href="{% url 'prize-update' prize.id %}" class="btn btn-secondary">
                                 <i class="fa fa-pencil"></i>

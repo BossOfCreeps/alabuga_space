@@ -29,7 +29,7 @@
                             <h5 class="card-title mb-0">Ранг {{ rank.id }}</h5>
                         </div>
                         <div class="mb-2">
-                            <p class="rank-card-experience mb-0">
+                            <p class="rank-card-experience mb-0 {% if request.user.experience >= rank.experience %}viewed{% endif %}">
                                 <i class="fa fa-scroll"></i> {{ rank.experience }}
                             </p>
                             {% for mission in rank.missions.all %}
@@ -37,8 +37,6 @@
                                     <i class="fa fa-rocket"></i>
                                     {% if mission in request.user.missions.all %}
                                         <span class="viewed">{{ mission.name }}</span>
-                                    {% elif mission.rank == request.user.rank %}
-                                        <a href="{% url 'mission' mission.id %}">{{ mission.name }}</a>
                                     {% else %}
                                         <span>{{ mission.name }}</span>
                                     {% endif %}

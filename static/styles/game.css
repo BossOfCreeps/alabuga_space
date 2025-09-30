@@ -374,6 +374,7 @@ a.btn::after {
 }
 .achievement-item {
     display: inline-block;
+    vertical-align: top;
     width: 100px;
     text-align: center;
     text-wrap: wrap;

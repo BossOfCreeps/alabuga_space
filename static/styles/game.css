@@ -374,9 +374,14 @@ a.btn::after {
 }
 .achievement-item {
     display: inline-block;
-    width: 80px;
+    width: 100px;
     text-align: center;
+    text-wrap: wrap;
     margin-right: 15px;
+}
+.achievement-item img {
+      display: block;
+      margin: 0 auto;
 }
 .progress-bar-level {
     height: 20px;
@@ -635,9 +640,6 @@ a.btn::after {
     .profile-avatar {
         width: 100px;
         height: 100px;
-    }
-    .achievement-item {
-        width: 70px;
     }
     .achievement-icon {
         width: 50px;

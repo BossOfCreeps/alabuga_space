@@ -48,6 +48,7 @@ class ShopBuyView(View):
         prize = Prize.objects.get(id=pk)
         if request.user.mana >= prize.price:
             request.user.mana -= prize.price
+            request.user.prizes.add(prize)
             request.user.save()
             Journal.objects.create(user=request.user, text=f"Куплен артефакт {prize.name}")
 
